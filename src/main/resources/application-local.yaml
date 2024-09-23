@@ -1,0 +1,17 @@
+#
+# // SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+# //
+# // SPDX-License-Identifier: Apache-2.0
+#
+
+lmos:
+  runtime:
+    agent-registry:
+      base-url: http://localhost:8080
+    open-ai:
+      url: https://api.openai.com/v1
+      key: dummy_openai_key
+      model: GPT35T-1106
+      max-tokens: 10000
+      temperature: 0.0
+      format: json_format

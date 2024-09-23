@@ -1,0 +1,16 @@
+#
+# // SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+# //
+# // SPDX-License-Identifier: Apache-2.0
+#
+
+lmos:
+  runtime:
+    open-ai:
+      key: dummyKey
+      url: https://localhost:8080/openai
+      max-tokens: 1000
+      temperature: 0.0
+      format: json_model
+    agent-registry:
+      base-url: http://localhost:8080/agentRegistry
