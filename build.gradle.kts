@@ -111,7 +111,11 @@ mavenPublishing {
 
     pom {
         name = "LMOS Runtime"
-        description = "LMOS Runtime is a component of the LMOS (Language Model Operating System) ecosystem, designed to facilitate dynamic agent routing and conversation handling in a multi-tenant, multi-channel environment."
+        description =
+            """LMOS Runtime is a component of the LMOS (Language Model Operating System) ecosystem, 
+            |designed to facilitate dynamic agent routing and conversation handling in a multi-tenant, 
+            |multi-channel environment.
+            """.trimMargin()
         url = "https://github.com/lmos-ai/lmos-runtime"
         licenses {
             license {
@@ -167,9 +171,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
-    implementation("io.github.lmos:lmos-router-llm:0.2.0")
-    implementation("io.github.lmos-ai.arc:arc-agent-client:0.30.0")
-    implementation("io.github.lmos-ai.arc:arc-api:0.30.0")
+    implementation("ai.ancf.lmos:lmos-router-llm:0.1.0")
+    implementation("ai.ancf.lmos:arc-agent-client:0.81.0")
+    implementation("ai.ancf.lmos:arc-api:0.81.0")
 
     val ktorVersion = "2.3.12"
     implementation("io.ktor:ktor-client-core:$ktorVersion")

@@ -6,16 +6,16 @@
 
 package ai.ancf.lmos.runtime.outbound
 
+import ai.ancf.lmos.router.core.*
+import ai.ancf.lmos.router.llm.DefaultModelClient
+import ai.ancf.lmos.router.llm.DefaultModelClientProperties
+import ai.ancf.lmos.router.llm.LLMAgentRoutingSpecsResolver
 import ai.ancf.lmos.runtime.core.model.Agent
 import ai.ancf.lmos.runtime.core.model.AgentBuilder
 import ai.ancf.lmos.runtime.core.model.AgentCapability
 import ai.ancf.lmos.runtime.core.model.Conversation
 import ai.ancf.lmos.runtime.core.properties.LmosRuntimeProperties
 import ai.ancf.lmos.runtime.core.service.outbound.AgentRoutingService
-import io.github.lmos.route.core.*
-import io.github.lmos.route.llm.DefaultModelClient
-import io.github.lmos.route.llm.DefaultModelClientProperties
-import io.github.lmos.route.llm.LLMAgentRoutingSpecsResolver
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 

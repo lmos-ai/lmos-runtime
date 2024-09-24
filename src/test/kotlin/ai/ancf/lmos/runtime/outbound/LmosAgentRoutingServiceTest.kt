@@ -6,11 +6,12 @@
 
 package ai.ancf.lmos.runtime.outbound
 
+import ai.ancf.lmos.arc.api.Message
+import ai.ancf.lmos.router.core.*
+import ai.ancf.lmos.router.core.Capability
 import ai.ancf.lmos.runtime.core.model.*
 import ai.ancf.lmos.runtime.core.model.Address
 import ai.ancf.lmos.runtime.core.properties.LmosRuntimeProperties
-import io.github.lmos.arc.api.Message
-import io.github.lmos.route.core.*
 import io.mockk.*
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.*
@@ -55,9 +56,9 @@ class LmosAgentRoutingServiceTest {
     @Test
     fun `resolveAgentForConversation should return correct agent with valid input`() =
         runBlocking {
-            val capability1 = Capability("capability1", "desc1", "1.0")
-            val capability2 = Capability("capability2", "desc2", "1.1")
-            val address1 = io.github.lmos.route.core.Address("http", "http://address1")
+            val capability1 = ai.ancf.lmos.router.core.Capability("capability1", "desc1", "1.0")
+            val capability2 = ai.ancf.lmos.router.core.Capability("capability2", "desc2", "1.1")
+            val address1 = ai.ancf.lmos.router.core.Address("http", "http://address1")
 
             val agentSpec =
                 AgentRoutingSpecBuilder()
@@ -148,8 +149,8 @@ class LmosAgentRoutingServiceTest {
             )
         val addresses =
             setOf(
-                io.github.lmos.route.core.Address("http", "example.com"),
-                io.github.lmos.route.core.Address("https", "example.com"),
+                ai.ancf.lmos.router.core.Address("http", "example.com"),
+                ai.ancf.lmos.router.core.Address("https", "example.com"),
             )
         val spec =
             AgentRoutingSpec(
