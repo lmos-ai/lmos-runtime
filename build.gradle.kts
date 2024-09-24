@@ -21,7 +21,7 @@ plugins {
 }
 
 group = "io.github.lmos"
-version = "0.0.10-SNAPSHOT"
+version = "0.0.11-SNAPSHOT"
 
 java {
     toolchain {
@@ -112,9 +112,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
-    implementation("io.github.lmos:lmos-router-llm:0.1-0-RC")
-    implementation("io.github.lmos-ai.arc:arc-agent-client:0.30.0")
-    implementation("io.github.lmos-ai.arc:arc-api:0.30.0")
+    implementation("ai.ancf.lmos:lmos-router-llm:0.1.0")
+    implementation("ai.ancf.lmos:arc-agent-client:0.81.0")
+    implementation("ai.ancf.lmos:arc-api:0.81.0")
 
     val ktorVersion = "2.3.12"
     implementation("io.ktor:ktor-client-core:$ktorVersion")

@@ -6,9 +6,10 @@
 
 package ai.ancf.lmos.runtime.outbound
 
+import ai.ancf.lmos.arc.agent.client.graphql.GraphQlAgentClient
+import ai.ancf.lmos.arc.api.AgentResult
+import ai.ancf.lmos.arc.api.Message
 import ai.ancf.lmos.runtime.core.model.*
-import io.github.lmos.arc.agent.client.graphql.GraphQlAgentClient
-import io.github.lmos.arc.api.Message
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -41,7 +42,14 @@ class ArcAgentClientServiceTest {
         val graphQlAgentClient = mockk<GraphQlAgentClient>()
         coEvery { graphQlAgentClient.callAgent(any()) } returns
             flow {
-                emit(Message(role = "assistant", content = "Agent Response"))
+                emit(
+                    AgentResult(
+                        messages =
+                            listOf(
+                                Message(role = "assistant", content = "Agent Response"),
+                            ),
+                    ),
+                )
             }
 
         val service = spyk(ArcAgentClientService())

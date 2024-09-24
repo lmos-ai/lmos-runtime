@@ -6,22 +6,20 @@
 
 package ai.ancf.lmos.runtime.inbound.controller
 
+import ai.ancf.lmos.arc.agent.client.graphql.GraphQlAgentClient
+import ai.ancf.lmos.arc.api.AgentResult
+import ai.ancf.lmos.arc.api.Message
+import ai.ancf.lmos.router.core.Address
+import ai.ancf.lmos.router.core.AgentRoutingSpecBuilder
+import ai.ancf.lmos.router.core.AgentRoutingSpecResolverException
 import ai.ancf.lmos.runtime.core.constants.ApiConstants.Endpoints.BASE_PATH
 import ai.ancf.lmos.runtime.core.constants.ApiConstants.Endpoints.CHAT_URL
 import ai.ancf.lmos.runtime.core.constants.ApiConstants.Headers.TURN_ID
-import ai.ancf.lmos.runtime.core.model.Conversation
-import ai.ancf.lmos.runtime.core.model.InputContext
-import ai.ancf.lmos.runtime.core.model.SystemContext
-import ai.ancf.lmos.runtime.core.model.UserContext
+import ai.ancf.lmos.runtime.core.model.*
 import ai.ancf.lmos.runtime.core.properties.LmosRuntimeProperties
 import ai.ancf.lmos.runtime.outbound.ArcAgentClientService
 import ai.ancf.lmos.runtime.outbound.LmosAgentRoutingService
 import ai.ancf.lmos.runtime.outbound.LmosOperatorAgentRegistry
-import io.github.lmos.arc.agent.client.graphql.GraphQlAgentClient
-import io.github.lmos.arc.api.Message
-import io.github.lmos.route.core.Address
-import io.github.lmos.route.core.AgentRoutingSpecBuilder
-import io.github.lmos.route.core.AgentRoutingSpecResolverException
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*
 import io.ktor.http.*
@@ -169,7 +167,14 @@ class ConversationControllerIntegrationTest {
         coEvery { arcAgentClientService.createGraphQlAgentClient(any()) } returns mockGraphQlAgentClient
         coEvery { mockGraphQlAgentClient.callAgent(any()) } returns
             flow {
-                emit(Message(role = "assistant", content = "Dummy response from Agent"))
+                emit(
+                    AgentResult(
+                        messages =
+                            listOf(
+                                Message(role = "assistant", content = "Dummy response from Agent"),
+                            ),
+                    ),
+                )
             }
 
         // Execute the request
@@ -215,7 +220,14 @@ class ConversationControllerIntegrationTest {
         coEvery { arcAgentClientService.createGraphQlAgentClient(any()) } returns mockGraphQlAgentClient
         coEvery { mockGraphQlAgentClient.callAgent(any()) } returns
             flow {
-                emit(Message(role = "assistant", content = "Dummy response from Agent"))
+                emit(
+                    AgentResult(
+                        messages =
+                            listOf(
+                                Message(role = "assistant", content = "Dummy response from Agent"),
+                            ),
+                    ),
+                )
             }
 
         // Execute the request
@@ -259,7 +271,14 @@ class ConversationControllerIntegrationTest {
         coEvery { arcAgentClientService.createGraphQlAgentClient(any()) } returns mockGraphQlAgentClient
         coEvery { mockGraphQlAgentClient.callAgent(any()) } returns
             flow {
-                emit(Message(role = "assistant", content = "Dummy response from Agent"))
+                emit(
+                    AgentResult(
+                        messages =
+                            listOf(
+                                Message(role = "assistant", content = "Dummy response from Agent"),
+                            ),
+                    ),
+                )
             }
 
         // Execute the request
@@ -301,7 +320,14 @@ class ConversationControllerIntegrationTest {
         coEvery { arcAgentClientService.createGraphQlAgentClient(any()) } returns mockGraphQlAgentClient
         coEvery { mockGraphQlAgentClient.callAgent(any()) } returns
             flow {
-                emit(Message(role = "assistant", content = "Dummy response from Agent"))
+                emit(
+                    AgentResult(
+                        messages =
+                            listOf(
+                                Message(role = "assistant", content = "Dummy response from Agent"),
+                            ),
+                    ),
+                )
             }
 
         // Execute the request

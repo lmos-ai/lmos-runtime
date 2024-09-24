@@ -6,7 +6,7 @@
 
 package ai.ancf.lmos.runtime.core.model
 
-import io.github.lmos.arc.api.Message
+import ai.ancf.lmos.arc.api.Message
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
