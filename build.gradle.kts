@@ -3,10 +3,13 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+import com.vanniktech.maven.publish.SonatypeHost
 import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
+import java.lang.System.getenv
+import java.net.URI
 
 plugins {
-    kotlin("jvm") version "2.0.0"
+    kotlin("jvm") version "2.0.20"
     kotlin("plugin.serialization") version "2.0.0"
     id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
     id("org.jetbrains.kotlinx.kover") version "0.8.3"
@@ -18,9 +21,11 @@ plugins {
 
     id("com.citi.helm") version "2.2.0"
     id("com.citi.helm-publish") version "2.2.0"
+    id("net.researchgate.release") version "3.0.2"
+    id("com.vanniktech.maven.publish") version "0.29.0"
 }
 
-group = "io.github.lmos"
+group = "ai.ancf.lmos"
 version = "0.0.11-SNAPSHOT"
 
 java {
@@ -97,6 +102,57 @@ tasks.register("helmPush") {
 
         helm.execHelm("registry", "logout") {
             args(registryUrl)
+        }
+    }
+}
+
+mavenPublishing {
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    signAllPublications()
+
+    pom {
+        name = "LMOS Runtime"
+        description = "LMOS Runtime is a component of the LMOS (Language Model Operating System) ecosystem, designed to facilitate dynamic agent routing and conversation handling in a multi-tenant, multi-channel environment."
+        url = "https://github.com/lmos-ai/lmos-runtime"
+        licenses {
+            license {
+                name = "Apache-2.0"
+                distribution = "repo"
+                url = "https://github.com/lmos-ai/lmos-runtime/blob/main/LICENSES/Apache-2.0.txt"
+            }
+        }
+        developers {
+            developer {
+                id = "telekom"
+                name = "Telekom Open Source"
+                email = "opensource@telekom.de"
+            }
+        }
+        scm {
+            url = "https://github.com/lmos-ai/lmos-runtime.git"
+        }
+    }
+
+    release {
+        buildTasks = listOf("releaseBuild")
+        ignoredSnapshotDependencies =
+            listOf()
+        newVersionCommitMessage = "New Snapshot-Version:"
+        preTagCommitMessage = "Release:"
+    }
+
+    tasks.register("releaseBuild") {
+        dependsOn(subprojects.mapNotNull { it.tasks.findByName("build") })
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = URI("https://maven.pkg.github.com/lmos-ai/lmos-runtime")
+            credentials {
+                username = findProperty("GITHUB_USER")?.toString() ?: getenv("GITHUB_USER")
+                password = findProperty("GITHUB_TOKEN")?.toString() ?: getenv("GITHUB_TOKEN")
+            }
         }
     }
 }

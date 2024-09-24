@@ -18,6 +18,7 @@ SPDX-License-Identifier = "Apache-2.0"
 path = [
     "gradle/**",
     "gradlew",
+    "gradle.properties",
     "gradlew.bat"
 ]
 SPDX-FileCopyrightText = "Copyright 2015 the original author or authors."
