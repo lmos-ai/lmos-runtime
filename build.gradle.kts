@@ -168,7 +168,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
     implementation("io.github.lmos:lmos-router-llm:0.2.0")
-    implementation("io.github.lmos-ai.arc:arc-agent-client:0.30.0")
+    implementation("io.github.lmos-ai.arc:arc-agent-client:0.70.0")
     implementation("io.github.lmos-ai.arc:arc-api:0.30.0")
 
     val ktorVersion = "2.3.12"
