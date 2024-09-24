@@ -22,18 +22,15 @@ The user queries are then forwarded to the selected agent, and the response is r
 graph TD
     Client[Client] --> |HTTP Request| CC[ConversationController]
     subgraph Kubernetes[Kubernetes Cluster]
-
         subgraph LMOS_Ecosystem[LMOS Ecosystem]
             CC --> |Process Conversation| CS[ConversationService]
             CS --> |Get Agents| ARS[AgentRegistryService]
             CS --> |Resolve Agent| ARTS[AgentRoutingService]
             CS --> |Ask Agent| ACS[AgentClientService]
-
             ARS --> |HTTP Request| LO[LMOS Operator]
             ACS --> |WebSocket| Agent1[Service Agent]
             ACS --> |WebSocket| Agent2[Sales Agent]
             ACS --> |WebSocket| Agent3[Technical Support Agent]
-
             subgraph LMOS_Runtime[LMOS Runtime]
                 CC
                 CS
@@ -41,18 +38,26 @@ graph TD
                 ARTS
                 ACS
             end
+            subgraph ARTS[AgentRoutingService]
+                LMOS_Router[LMOS-Router]
+            end
         end
-
         Config[ConfigMaps/Secrets]
         K8S_API[Kubernetes API]
         ARTS --> |Use| LLM_SelfHosted[LLM - Meta LLama]
     end
-
-    Config --> |Configure| LMOS_Runtime
+    Config ---> |Configure| LMOS_Runtime
     ARTS --> |Use| LLM_External[LLM - OpenAI]
     LO <--> |CRUD Operations| K8S_API
-
     style Kubernetes fill:#e6f3ff,stroke:#4da6ff
+    style ARS fill:#e6e6fa,stroke:#9370db,color:#000000
+    style ACS fill:#e6e6fa,stroke:#9370db,color:#000000
+    style ARTS fill:#e6e6fa,stroke:#9370db,color:#000000
+    style LMOS_Router fill:#e6e6fa,stroke:#9370db,color:#000000
+    style LO fill:#e6e6fa,stroke:#9370db,color:#000000
+    style Agent1 fill:#e6e6fa,stroke:#9370db,color:#000000
+    style Agent2 fill:#e6e6fa,stroke:#9370db,color:#000000
+    style Agent3 fill:#e6e6fa,stroke:#9370db,color:#000000
 ```
 
 ## Configuration
