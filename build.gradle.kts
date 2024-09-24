@@ -112,7 +112,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
-    implementation("io.github.lmos:lmos-router-llm:0.1-0-RC")
+    implementation("io.github.lmos:lmos-router-llm:0.2.0")
     implementation("io.github.lmos-ai.arc:arc-agent-client:0.30.0")
     implementation("io.github.lmos-ai.arc:arc-api:0.30.0")
 
