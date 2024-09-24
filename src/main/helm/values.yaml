@@ -1,0 +1,79 @@
+# Default values for lmos-runtime.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/lmos-ai/lmos-runtime
+  pullPolicy: IfNotPresent
+
+nameOverride: "lmos-runtime"
+fullnameOverride: "lmos-runtime"
+
+serviceAccount:
+  namespace: default
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 8081
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+resources: {}
+
+livenessProbe:
+  httpGet:
+    path: /actuator/health
+    port: http
+  initialDelaySeconds: 20
+readinessProbe:
+  httpGet:
+    path: /actuator/health
+    port: http
+  initialDelaySeconds: 20
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 20
+  targetCPUUtilizationPercentage: 80
+
+volumes: []
+
+volumeMounts: []
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+openaiApiUrl: "https://api.openai.com/v1"
+openaiApiModel: "gpt-3.5-turbo"
+openaiApiMaxTokens: 200
+openaiApiTemperature: 0.0
+openaiApiFormat: json_object
+agentRegistryUrl: "http://lmos-operator:8080"
+secretName: "lmos-runtime"
+secretKey: "OPENAI_API_KEY"
