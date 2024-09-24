@@ -169,7 +169,7 @@ dependencies {
 
     implementation("io.github.lmos:lmos-router-llm:0.2.0")
     implementation("io.github.lmos-ai.arc:arc-agent-client:0.30.0")
-    implementation("io.github.lmos-ai.arc:arc-api:0.30.0")
+    implementation("io.github.lmos-ai.arc:arc-api:0.70.0")
 
     val ktorVersion = "2.3.12"
     implementation("io.ktor:ktor-client-core:$ktorVersion")
