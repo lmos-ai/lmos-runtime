@@ -26,6 +26,7 @@ plugins {
 }
 
 group = "ai.ancf.lmos"
+version = "0.0.9-SNAPSHOT"
 
 java {
     toolchain {

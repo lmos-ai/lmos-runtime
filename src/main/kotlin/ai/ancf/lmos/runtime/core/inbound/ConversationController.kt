@@ -15,6 +15,7 @@ import ai.ancf.lmos.runtime.core.service.inbound.ConversationService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
+@CrossOrigin(originPatterns = ["*"])
 @RestController
 @RequestMapping(BASE_PATH)
 class ConversationController(private val conversationService: ConversationService) {
