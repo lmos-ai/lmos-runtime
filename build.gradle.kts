@@ -112,7 +112,11 @@ mavenPublishing {
 
     pom {
         name = "LMOS Runtime"
-        description = "LMOS Runtime is a component of the LMOS (Language Model Operating System) ecosystem, designed to facilitate dynamic agent routing and conversation handling in a multi-tenant, multi-channel environment."
+        description =
+            """LMOS Runtime is a component of the LMOS (Language Model Operating System) ecosystem, 
+            |designed to facilitate dynamic agent routing and conversation handling in a multi-tenant, 
+            |multi-channel environment.
+            """.trimMargin()
         url = "https://github.com/lmos-ai/lmos-runtime"
         licenses {
             license {
