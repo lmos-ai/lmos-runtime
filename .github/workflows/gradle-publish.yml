@@ -90,16 +90,16 @@ jobs:
       run: ./gradlew bootBuildImage
       env:
         REGISTRY_URL: ghcr.io
-        REGISTRY_USERNAME: ${{ github.actor }}
-        REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        REGISTRY_USERNAME: ${{ secrets.LMOS_COMMITER_APPID }}
+        REGISTRY_PASSWORD: ${{ secrets.LMOS_COMMITER }}
         REGISTRY_NAMESPACE: lmos-ai
 
     - name: Publish Chart to GitHub Packages
       run: ./gradlew helmPush
       env:
         REGISTRY_URL: ghcr.io
-        REGISTRY_USERNAME: ${{ github.actor }}
-        REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        REGISTRY_USERNAME: ${{ secrets.LMOS_COMMITER_APPID }}
+        REGISTRY_PASSWORD: ${{ secrets.LMOS_COMMITER }}
         REGISTRY_NAMESPACE: lmos-ai
 
     - name: "Create release info"
