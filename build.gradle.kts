@@ -34,28 +34,10 @@ java {
 }
 
 license {
+	include("**/*.java")
     include("**/*.kt")
     include("**/*.yaml")
     exclude("**/*.properties")
-}
-
-fun getProperty(propertyName: String) = System.getenv(propertyName) ?: project.findProperty(propertyName) as String
-
-tasks.named<BootBuildImage>("bootBuildImage") {
-    val registryUrl = getProperty("REGISTRY_URL")
-    val registryUsername = getProperty("REGISTRY_USERNAME")
-    val registryPassword = getProperty("REGISTRY_PASSWORD")
-    val registryNamespace = getProperty("REGISTRY_NAMESPACE")
-
-    imageName.set("$registryUrl/$registryNamespace/${project.name}:${project.version}")
-    publish = true
-    docker {
-        publishRegistry {
-            url.set(registryUrl)
-            username.set(registryUsername)
-            password.set(registryPassword)
-        }
-    }
 }
 
 helm {
@@ -101,6 +83,25 @@ tasks.register("helmPush") {
 
         helm.execHelm("registry", "logout") {
             args(registryUrl)
+        }
+    }
+}
+
+fun getProperty(propertyName: String) = System.getenv(propertyName) ?: project.findProperty(propertyName) as String
+
+tasks.named<BootBuildImage>("bootBuildImage") {
+    val registryUrl = getProperty("REGISTRY_URL")
+    val registryUsername = getProperty("REGISTRY_USERNAME")
+    val registryPassword = getProperty("REGISTRY_PASSWORD")
+    val registryNamespace = getProperty("REGISTRY_NAMESPACE")
+
+    imageName.set("$registryUrl/$registryNamespace/${project.name}:${project.version}")
+    publish = true
+    docker {
+        publishRegistry {
+            url.set(registryUrl)
+            username.set(registryUsername)
+            password.set(registryPassword)
         }
     }
 }
