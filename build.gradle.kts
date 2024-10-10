@@ -34,7 +34,7 @@ java {
 }
 
 license {
-	include("**/*.java")
+    include("**/*.java")
     include("**/*.kt")
     include("**/*.yaml")
     exclude("**/*.properties")

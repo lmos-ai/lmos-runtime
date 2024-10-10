@@ -12,7 +12,6 @@ nameOverride: "lmos-runtime"
 fullnameOverride: "lmos-runtime"
 
 serviceAccount:
-  namespace: default
   create: true
   automount: true
   annotations: {}
