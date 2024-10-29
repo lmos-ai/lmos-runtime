@@ -174,7 +174,7 @@ dependencies {
 
     implementation("ai.ancf.lmos:lmos-router-llm:0.1.0")
     implementation("ai.ancf.lmos:arc-agent-client:0.81.0")
-    implementation("ai.ancf.lmos:arc-api:0.81.0")
+    implementation("ai.ancf.lmos:arc-api:0.87.0")
 
     val ktorVersion = "2.3.12"
     implementation("io.ktor:ktor-client-core:$ktorVersion")
