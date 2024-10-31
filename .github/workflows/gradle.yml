@@ -34,7 +34,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@0d30c9111cf47a838eb69c06d13f3f51ab2ed76f # v3.1.0
+        uses: gradle/actions/setup-gradle@0d30c9111cf47a838eb69c06d13f3f51ab2ed76f
       - name: Build with Gradle Wrapper
         run: ./gradlew build
 
@@ -54,4 +54,4 @@ jobs:
       # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
       - name: Generate and submit dependency graph
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: gradle/actions/dependency-submission@0d30c9111cf47a838eb69c06d13f3f51ab2ed76f # v3.1.0
+        uses: gradle/actions/dependency-submission@0d30c9111cf47a838eb69c06d13f3f51ab2ed76f
