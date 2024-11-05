@@ -14,3 +14,6 @@ lmos:
       format: json_model
     agent-registry:
       base-url: http://localhost:8080/agentRegistry
+    cors-properties:
+      enabled: true
+      max-age: 9000

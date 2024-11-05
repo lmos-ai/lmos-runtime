@@ -12,6 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 class LmosRuntimeProperties(
     val agentRegistry: AgentRegistry,
     val openAI: OpenAI,
+    val corsProperties: CorsProperties,
 ) {
     data class AgentRegistry(
         val baseUrl: String,
@@ -25,4 +26,15 @@ class LmosRuntimeProperties(
         val temperature: Double,
         val format: String,
     )
+
+    data class CorsProperties(
+        var enabled: Boolean = false,
+        var allowedOrigins: List<String>,
+        var allowedMethods: List<String>,
+        var allowedHeaders: List<String>,
+        var patterns: List<String>,
+        var maxAge: Long = 8000,
+    )
+
+    companion object
 }

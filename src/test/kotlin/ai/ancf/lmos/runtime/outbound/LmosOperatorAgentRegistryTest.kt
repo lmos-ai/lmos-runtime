@@ -78,6 +78,7 @@ class LmosOperatorAgentRegistryTest {
                 LmosRuntimeProperties(
                     agentRegistry = LmosRuntimeProperties.AgentRegistry(baseUrl = "http://localhost"),
                     openAI = LmosRuntimeProperties.OpenAI(url = "http://localhost", key = "openaiKey", "", 1, 0.0, "json_model"),
+                    corsProperties = LmosRuntimeProperties.defaultCors(),
                 )
 
             val registry = LmosOperatorAgentRegistry(properties)
@@ -109,6 +110,7 @@ class LmosOperatorAgentRegistryTest {
                 LmosRuntimeProperties(
                     agentRegistry = LmosRuntimeProperties.AgentRegistry(baseUrl = "http://localhost"),
                     openAI = LmosRuntimeProperties.OpenAI("http://localhost", key = "openaiKey", "", 1, 0.0, "json_model"),
+                    corsProperties = LmosRuntimeProperties.defaultCors(),
                 )
 
             val registry = LmosOperatorAgentRegistry(properties)
@@ -118,4 +120,8 @@ class LmosOperatorAgentRegistryTest {
                 runBlocking { registry.getAgents("test-tenant", "test-channel") }
             }
         }
+}
+
+fun LmosRuntimeProperties.Companion.defaultCors(): LmosRuntimeProperties.CorsProperties {
+    return LmosRuntimeProperties.CorsProperties(false, listOf("*"), listOf("*"), listOf("*"), listOf("/**"))
 }

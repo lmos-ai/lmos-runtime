@@ -68,7 +68,7 @@ To customize the settings, create a ConfigMap or Secret and mount it to the LMOS
 You can adjust the following properties:
 
 | Property                             | Kubernetes ConfigMaps/ Secrets | Description                                               | Default                     |
-| ------------------------------------ | ------------------------------ | --------------------------------------------------------- |-----------------------------|
+|--------------------------------------|--------------------------------|-----------------------------------------------------------|-----------------------------|
 | `lmos.runtime.agentRegistry.baseUrl` | AGENT_REGISTRY_URL             | URL of the agent registry service                         | `http://lmos-operator:8080` |
 | `lmos.runtime.openAI.url`            | OPENAI_API_URL                 | OpenAI API URL                                            | `https://api.openai.com/v1` |
 | `lmos.runtime.openAI.model`          | OPENAI_API_MODEL               | OpenAI model to use                                       | `GPT35T-1106`               |
@@ -76,6 +76,12 @@ You can adjust the following properties:
 | `lmos.runtime.openAI.temperature`    | OPENAI_API_TEMP                | Temperature for OpenAI requests                           | `0.0`                       |
 | `lmos.runtime.openAI.format`         | OPENAI_API_FORMAT              | Output format for OpenAI requests                         | `json_format`               |
 | `lmos.runtime.openAI.key`            | OPENAI_API_KEY                 | OpenAI API key (**should be set as a Kubernetes secret**) | `null`                      |
+| `lmos.runtime.cors.enabled`          | CORS_ENABLED                   | Enables CORS                                              | `false`                     |
+| `lmos.runtime.cors.allowedOrigins`   | CORS_ALLOWED_ORIGINS           | List of allowed origins for CORS                          | `[*]`                       |
+| `lmos.runtime.cors.allowedMethods`   | CORS_ALLOWED_METHODS           | List of allowed HTTP methods for CORS                     | `[*]`                       |
+| `lmos.runtime.cors.allowedHeaders`   | CORS_ALLOWED_HEADERS           | List of allowed headers for CORS                          | `[*]`                       |
+| `lmos.runtime.cors.patterns`         | CORS_PATTERNS                  | URL patterns for applying CORS                            | `[/**]`                     |
+| `lmos.runtime.cors.maxAge`           | CORS_MAX_AGE                   | Maximum age (in seconds) for CORS caching                 | `8000`                      |
 
 ## Setup and Installation
 ### How to install on a Kubernetes cluster:

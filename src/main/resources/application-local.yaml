@@ -15,3 +15,14 @@ lmos:
       max-tokens: 10000
       temperature: 0.0
       format: json_format
+    cors-properties:
+      enabled: true
+      allowed-headers:
+        - "*"
+      allowed-methods:
+        - "*"
+      allowed-origins:
+        - "*"
+      patterns:
+        - "/**"
+      max-age: 8000

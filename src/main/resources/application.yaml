@@ -15,6 +15,13 @@ lmos:
       max-tokens: ${OPENAI_API_MAX_TOKENS}
       temperature: ${OPENAI_API_TEMP}
       format: ${OPENAI_API_FORMAT}
+    cors-properties:
+      enabled: ${CORS_ENABLED:false}
+      allowed-origins: ${CORS_ALLOWED_ORIGINS:*}
+      allowed-methods: ${CORS_ALLOWED_METHODS:*}
+      allowed-headers: ${CORS_ALLOWED_HEADERS:*}
+      patterns: ${CORS_PATTERNS:/**}
+      max-age: ${CORS_MAX_AGE:8000}
 
 server:
   port: 8081
