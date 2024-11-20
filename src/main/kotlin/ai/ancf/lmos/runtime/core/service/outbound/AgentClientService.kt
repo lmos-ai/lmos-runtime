@@ -17,5 +17,6 @@ interface AgentClientService {
         turnId: String,
         agentName: String,
         agentAddress: Address,
+        subset: String?,
     ): AssistantMessage
 }

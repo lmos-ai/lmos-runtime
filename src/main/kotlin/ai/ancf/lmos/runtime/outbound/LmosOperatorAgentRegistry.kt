@@ -6,6 +6,7 @@
 
 package ai.ancf.lmos.runtime.outbound
 
+import ai.ancf.lmos.runtime.core.constants.ApiConstants.Headers.SUBSET
 import ai.ancf.lmos.runtime.core.exception.InternalServerErrorException
 import ai.ancf.lmos.runtime.core.exception.NoRoutingInfoFoundException
 import ai.ancf.lmos.runtime.core.exception.UnexpectedResponseException
@@ -26,9 +27,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Service
 
-@Service
 class LmosOperatorAgentRegistry(private val lmosRuntimeProperties: LmosRuntimeProperties) : AgentRegistryService {
     @OptIn(ExperimentalSerializationApi::class)
     private val json =
@@ -51,10 +50,11 @@ class LmosOperatorAgentRegistry(private val lmosRuntimeProperties: LmosRuntimePr
     private val log = LoggerFactory.getLogger(LmosOperatorAgentRegistry::class.java)
 
     @Override
-    override suspend fun getAgents(
+    override suspend fun getRoutingInformation(
         tenantId: String,
         channelId: String,
-    ): List<Agent> {
+        subset: String?,
+    ): RoutingInformation {
         val urlString = "${lmosRuntimeProperties.agentRegistry.baseUrl}/apis/v1/tenants/$tenantId/channels/$channelId/routing"
         log.trace("Calling operator: $urlString")
 
@@ -63,6 +63,7 @@ class LmosOperatorAgentRegistry(private val lmosRuntimeProperties: LmosRuntimePr
                 client.get(urlString) {
                     headers {
                         append(HttpHeaders.Accept, ContentType.Application.Json.toString())
+                        subset?.let { append(SUBSET, it) }
                     }
                 }
             } catch (e: Exception) {
@@ -85,10 +86,12 @@ class LmosOperatorAgentRegistry(private val lmosRuntimeProperties: LmosRuntimePr
         }
 
         return try {
-            response.bodyAsText().let {
-                log.debug("Get agents from operator response: $it")
-                json.decodeFromString<ChannelRouting>(it)
-            }.toAgent()
+            val channelRouting =
+                response.bodyAsText().let {
+                    log.debug("Get agents from operator response: $it")
+                    json.decodeFromString<ChannelRouting>(it)
+                }
+            return channelRouting.toRoutingInformation(response.headers[SUBSET])
         } catch (e: Exception) {
             log.error("Unexpected response body from operator: ${response.bodyAsText()}, exception: ${e.printStackTrace()}")
             throw UnexpectedResponseException("Unexpected response body from operator: ${e.message}")
@@ -96,12 +99,20 @@ class LmosOperatorAgentRegistry(private val lmosRuntimeProperties: LmosRuntimePr
     }
 }
 
+private fun ChannelRouting.toRoutingInformation(subset: String?) = RoutingInformation(this.toAgent(), subset)
+
+data class RoutingInformation(
+    val agentList: List<Agent>,
+    val subset: String?,
+)
+
 @Serializable
 data class ChannelRouting(
     val apiVersion: String,
     val kind: String,
     val metadata: Metadata,
     val spec: Spec,
+    val subset: String? = null,
 )
 
 @Serializable
