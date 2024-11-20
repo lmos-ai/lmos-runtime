@@ -17,9 +17,7 @@ import ai.ancf.lmos.runtime.core.model.Conversation
 import ai.ancf.lmos.runtime.core.properties.LmosRuntimeProperties
 import ai.ancf.lmos.runtime.core.service.outbound.AgentRoutingService
 import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Service
 
-@Service
 class LmosAgentRoutingService(private val lmosRuntimeProperties: LmosRuntimeProperties) : AgentRoutingService {
     private val log = LoggerFactory.getLogger(LmosAgentRoutingService::class.java)
 

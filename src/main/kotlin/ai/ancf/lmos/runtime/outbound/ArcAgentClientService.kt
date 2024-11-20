@@ -7,10 +7,7 @@
 package ai.ancf.lmos.runtime.outbound
 
 import ai.ancf.lmos.arc.agent.client.graphql.GraphQlAgentClient
-import ai.ancf.lmos.arc.api.AgentRequest
-import ai.ancf.lmos.arc.api.ConversationContext
-import ai.ancf.lmos.arc.api.SystemContextEntry
-import ai.ancf.lmos.arc.api.UserContext
+import ai.ancf.lmos.arc.api.*
 import ai.ancf.lmos.runtime.core.exception.AgentClientException
 import ai.ancf.lmos.runtime.core.model.Address
 import ai.ancf.lmos.runtime.core.model.AssistantMessage
@@ -18,9 +15,7 @@ import ai.ancf.lmos.runtime.core.model.Conversation
 import ai.ancf.lmos.runtime.core.service.outbound.AgentClientService
 import kotlinx.coroutines.flow.toCollection
 import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Service
 
-@Service
 class ArcAgentClientService : AgentClientService {
     private val log = LoggerFactory.getLogger(ArcAgentClientService::class.java)
 
@@ -30,6 +25,7 @@ class ArcAgentClientService : AgentClientService {
         turnId: String,
         agentName: String,
         agentAddress: Address,
+        subset: String?,
     ): AssistantMessage {
         val graphQlAgentClient = createGraphQlAgentClient(agentAddress)
 
@@ -42,14 +38,13 @@ class ArcAgentClientService : AgentClientService {
                                 conversationId = conversationId,
                             ),
                         systemContext =
-                            listOf(
-                                SystemContextEntry(key = "channelId", value = conversation.systemContext.channelId),
-                            ),
+                            conversation.systemContext.contextParams.map { (key, value) -> SystemContextEntry(key, value) }
+                                .toList(),
                         userContext =
                             UserContext(
                                 userId = conversation.userContext.userId,
                                 userToken = conversation.userContext.userToken,
-                                emptyList(),
+                                profile = conversation.userContext.contextParams.map { (key, value) -> ProfileEntry(key, value) }.toList(),
                             ),
                         messages = conversation.inputContext.messages,
                     ),
@@ -59,7 +54,7 @@ class ArcAgentClientService : AgentClientService {
                 throw AgentClientException(e.message)
             }
 
-        return AssistantMessage(agentResponse.first().messages[0].content)
+        return AssistantMessage(agentResponse.first().messages[0].content, agentResponse.first().anonymizationEntities)
     }
 
     internal fun createGraphQlAgentClient(agentAddress: Address): GraphQlAgentClient {

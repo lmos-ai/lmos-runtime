@@ -58,7 +58,7 @@ class ArcAgentClientServiceTest {
         // Call the method under test
         val result =
             runBlocking {
-                service.askAgent(conversation, conversationId, turnId, agentName, agentAddress)
+                service.askAgent(conversation, conversationId, turnId, agentName, agentAddress, "test-subset")
             }
 
         // Assertions
@@ -87,7 +87,14 @@ class ArcAgentClientServiceTest {
         // Perform the test
         assertThrows(Exception::class.java) {
             runBlocking {
-                arcAgentClientService.askAgent(conversation, "mockConversationId", "mockTurnId", "mockAgentName", mockAddress)
+                arcAgentClientService.askAgent(
+                    conversation,
+                    "mockConversationId",
+                    "mockTurnId",
+                    "mockAgentName",
+                    mockAddress,
+                    "test-subset",
+                )
             }
         }
     }
