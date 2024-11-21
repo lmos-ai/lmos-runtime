@@ -189,7 +189,7 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testImplementation("io.mockk:mockk:1.13.12")
+    testImplementation("io.mockk:mockk:1.13.13")
     testImplementation("io.ktor:ktor-client-mock:$ktorVersion")
 
     // https://github.com/Kotlin/dokka/issues/3472
