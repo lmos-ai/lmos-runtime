@@ -9,6 +9,7 @@ package ai.ancf.lmos.runtime.outbound
 import ai.ancf.lmos.arc.agent.client.graphql.GraphQlAgentClient
 import ai.ancf.lmos.arc.api.AgentResult
 import ai.ancf.lmos.arc.api.Message
+import ai.ancf.lmos.runtime.core.constants.ApiConstants
 import ai.ancf.lmos.runtime.core.model.*
 import io.mockk.coEvery
 import io.mockk.every
@@ -38,9 +39,15 @@ class ArcAgentClientServiceTest {
         val turnId = "testTurnId"
         val agentName = "testAgentName"
         val agentAddress = Address("http", "test-uri")
+        val subset = "test-subset"
 
         val graphQlAgentClient = mockk<GraphQlAgentClient>()
-        coEvery { graphQlAgentClient.callAgent(any()) } returns
+        coEvery {
+            graphQlAgentClient.callAgent(
+                agentRequest = any(),
+                requestHeaders = mapOf(ApiConstants.Headers.SUBSET to subset),
+            )
+        } returns
             flow {
                 emit(
                     AgentResult(
@@ -58,7 +65,7 @@ class ArcAgentClientServiceTest {
         // Call the method under test
         val result =
             runBlocking {
-                service.askAgent(conversation, conversationId, turnId, agentName, agentAddress)
+                service.askAgent(conversation, conversationId, turnId, agentName, agentAddress, subset)
             }
 
         // Assertions
@@ -87,7 +94,14 @@ class ArcAgentClientServiceTest {
         // Perform the test
         assertThrows(Exception::class.java) {
             runBlocking {
-                arcAgentClientService.askAgent(conversation, "mockConversationId", "mockTurnId", "mockAgentName", mockAddress)
+                arcAgentClientService.askAgent(
+                    conversation,
+                    "mockConversationId",
+                    "mockTurnId",
+                    "mockAgentName",
+                    mockAddress,
+                    "test-subset",
+                )
             }
         }
     }
