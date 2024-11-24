@@ -80,11 +80,6 @@ You can adjust the following properties:
 ## Setup and Installation
 ### How to install on a Kubernetes cluster:
 
-```
-export CR_PAT=YOUR_TOKEN
-echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
-```
-
 #### Follow steps to [install lmos-operator](https://github.com/lmos-ai/lmos-operator/blob/main/readme.md) on kubernetes cluster
 
 Install lmos-runtime
@@ -93,13 +88,7 @@ Install lmos-runtime
 helm install lmos-runtime oci://ghcr.io/lmos-ai/lmos-runtime-chart --version <current_version>
 ```
 
-### How to test locally with Minikube:
-
-Install [Minikube](https://minikube.sigs.k8s.io/docs/start)
-
-```
-minikube start
-```
+### How to test locally:
 
 #### Follow steps to [install lmos-operator](https://github.com/lmos-ai/lmos-operator/blob/main/readme.md) on Minikube
 
