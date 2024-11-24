@@ -14,5 +14,6 @@ object ApiConstants {
 
     object Headers {
         const val TURN_ID = "x-turn-id"
+        const val SUBSET = "x-subset"
     }
 }

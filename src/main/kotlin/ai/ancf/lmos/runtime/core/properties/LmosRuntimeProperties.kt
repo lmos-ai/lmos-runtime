@@ -11,8 +11,18 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 @ConfigurationProperties(prefix = "lmos.runtime")
 class LmosRuntimeProperties(
     val agentRegistry: AgentRegistry,
-    val openAI: OpenAI,
+    val openAi: OpenAI? = null,
+    val router: Router,
 ) {
+    data class Router(
+        val type: RouterType,
+    )
+
+    enum class RouterType {
+        EXPLICIT,
+        LLM,
+    }
+
     data class AgentRegistry(
         val baseUrl: String,
     )

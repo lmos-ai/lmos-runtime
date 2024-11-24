@@ -17,9 +17,7 @@ import ai.ancf.lmos.runtime.core.model.Conversation
 import ai.ancf.lmos.runtime.core.properties.LmosRuntimeProperties
 import ai.ancf.lmos.runtime.core.service.outbound.AgentRoutingService
 import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Service
 
-@Service
 class LmosAgentRoutingService(private val lmosRuntimeProperties: LmosRuntimeProperties) : AgentRoutingService {
     private val log = LoggerFactory.getLogger(LmosAgentRoutingService::class.java)
 
@@ -59,14 +57,15 @@ class LmosAgentRoutingService(private val lmosRuntimeProperties: LmosRuntimeProp
     }
 
     private fun agentRoutingSpecResolver(agentRoutingSpecsProvider: AgentRoutingSpecsProvider): AgentRoutingSpecsResolver {
+        val openAIConfig = lmosRuntimeProperties.openAi ?: throw IllegalArgumentException("openAI configuration key is null")
         val defaultModelClientProperties =
             DefaultModelClientProperties(
-                openAiUrl = lmosRuntimeProperties.openAI.url,
-                openAiApiKey = lmosRuntimeProperties.openAI.key,
-                model = lmosRuntimeProperties.openAI.model,
-                maxTokens = lmosRuntimeProperties.openAI.maxTokens,
-                temperature = lmosRuntimeProperties.openAI.temperature,
-                format = lmosRuntimeProperties.openAI.format,
+                openAiUrl = openAIConfig.url,
+                openAiApiKey = openAIConfig.key,
+                model = openAIConfig.model,
+                maxTokens = openAIConfig.maxTokens,
+                temperature = openAIConfig.temperature,
+                format = openAIConfig.format,
             )
         return LLMAgentRoutingSpecsResolver(
             agentRoutingSpecsProvider,

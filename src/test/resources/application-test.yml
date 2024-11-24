@@ -12,5 +12,8 @@ lmos:
       max-tokens: 1000
       temperature: 0.0
       format: json_model
+      model: GPT-4o
     agent-registry:
       base-url: http://localhost:8080/agentRegistry
+    router:
+      type: explicit

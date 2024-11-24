@@ -38,8 +38,8 @@ import org.springframework.test.web.reactive.server.WebTestClient
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-@Import(ConversationControllerIntegrationTest.MockConfig::class)
-class ConversationControllerIntegrationTest {
+@Import(TestConversationControllerIntegrationTest.MockConfig::class)
+class TestConversationControllerIntegrationTest {
     @Autowired
     private lateinit var webTestClient: WebTestClient
 
@@ -397,5 +397,9 @@ class ConversationControllerIntegrationTest {
 
         @Bean
         open fun arcAgentClientService(): ArcAgentClientService = spyk()
+
+        @Bean
+        open fun agentRoutingService(lmosRuntimeProperties: LmosRuntimeProperties): LmosOperatorAgentRegistry =
+            spyk(LmosOperatorAgentRegistry(lmosRuntimeProperties))
     }
 }
