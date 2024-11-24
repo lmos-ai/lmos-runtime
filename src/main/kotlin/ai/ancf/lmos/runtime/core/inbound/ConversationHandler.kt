@@ -10,8 +10,8 @@ import ai.ancf.lmos.runtime.core.model.AssistantMessage
 import ai.ancf.lmos.runtime.core.model.Conversation
 import ai.ancf.lmos.runtime.core.service.inbound.ConversationService
 
-interface ConversationExecutor {
-    suspend fun processConversation(
+interface ConversationHandler {
+    suspend fun handleConversation(
         conversation: Conversation,
         conversationId: String,
         tenantId: String,
@@ -19,8 +19,8 @@ interface ConversationExecutor {
     ): AssistantMessage
 }
 
-class DefaultConversationExecutor(private val conversationService: ConversationService) : ConversationExecutor {
-    override suspend fun processConversation(
+class DefaultConversationHandler(private val conversationService: ConversationService) : ConversationHandler {
+    override suspend fun handleConversation(
         conversation: Conversation,
         conversationId: String,
         tenantId: String,

@@ -15,6 +15,10 @@ class ExplicitAgentRoutingService : AgentRoutingService {
         conversation: Conversation,
         agentList: List<Agent>,
     ): Agent {
-        return agentList.first { agent -> agent.name == conversation.inputContext.explicitAgent }
+        val explicitAgent =
+            conversation.inputContext.explicitAgent
+                ?: throw IllegalArgumentException("Explicit agent name is required")
+        return agentList.firstOrNull { agent -> agent.name == explicitAgent }
+            ?: throw NoSuchElementException("No agent found with the name ${conversation.inputContext.explicitAgent}")
     }
 }

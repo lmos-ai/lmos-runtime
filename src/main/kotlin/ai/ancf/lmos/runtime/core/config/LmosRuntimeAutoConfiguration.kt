@@ -6,8 +6,8 @@
 
 package ai.ancf.lmos.runtime.core.config
 
-import ai.ancf.lmos.runtime.core.inbound.ConversationExecutor
-import ai.ancf.lmos.runtime.core.inbound.DefaultConversationExecutor
+import ai.ancf.lmos.runtime.core.inbound.ConversationHandler
+import ai.ancf.lmos.runtime.core.inbound.DefaultConversationHandler
 import ai.ancf.lmos.runtime.core.properties.LmosRuntimeProperties
 import ai.ancf.lmos.runtime.core.service.ExplicitAgentRoutingService
 import ai.ancf.lmos.runtime.core.service.cache.LmosRuntimeTenantAwareCache
@@ -58,9 +58,9 @@ open class LmosRuntimeAutoConfiguration(
     }
 
     @Bean
-    @ConditionalOnMissingBean(ConversationExecutor::class)
-    open fun conversationExecutor(agentConversationService: ConversationService): ConversationExecutor {
-        return DefaultConversationExecutor(agentConversationService)
+    @ConditionalOnMissingBean(ConversationHandler::class)
+    open fun conversationExecutor(agentConversationService: ConversationService): ConversationHandler {
+        return DefaultConversationHandler(agentConversationService)
     }
 
     @Bean
