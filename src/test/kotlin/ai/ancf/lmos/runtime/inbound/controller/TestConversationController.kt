@@ -4,7 +4,7 @@
  * // SPDX-License-Identifier: Apache-2.0
  */
 
-package ai.ancf.lmos.runtime.core.inbound
+package ai.ancf.lmos.runtime.inbound.controller
 
 import ai.ancf.lmos.runtime.core.constants.ApiConstants.Endpoints.BASE_PATH
 import ai.ancf.lmos.runtime.core.constants.ApiConstants.Endpoints.CHAT_URL
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping(BASE_PATH)
-class ConversationController(private val conversationService: ConversationService) {
+class TestConversationController(private val conversationService: ConversationService) {
     @PostMapping(CHAT_URL)
     suspend fun chat(
         @RequestBody conversation: Conversation,

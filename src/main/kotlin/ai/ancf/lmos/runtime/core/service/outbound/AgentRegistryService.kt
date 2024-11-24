@@ -6,11 +6,12 @@
 
 package ai.ancf.lmos.runtime.core.service.outbound
 
-import ai.ancf.lmos.runtime.core.model.Agent
+import ai.ancf.lmos.runtime.outbound.RoutingInformation
 
 interface AgentRegistryService {
-    suspend fun getAgents(
+    suspend fun getRoutingInformation(
         tenantId: String,
         channelId: String,
-    ): List<Agent>
+        subset: String?,
+    ): RoutingInformation
 }

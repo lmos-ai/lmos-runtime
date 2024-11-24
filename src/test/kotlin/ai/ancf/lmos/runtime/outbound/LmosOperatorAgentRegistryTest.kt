@@ -7,7 +7,6 @@
 package ai.ancf.lmos.runtime.outbound
 
 import ai.ancf.lmos.runtime.core.exception.NoRoutingInfoFoundException
-import ai.ancf.lmos.runtime.core.model.Agent
 import ai.ancf.lmos.runtime.core.properties.LmosRuntimeProperties
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*
@@ -78,15 +77,21 @@ class LmosOperatorAgentRegistryTest {
                 LmosRuntimeProperties(
                     agentRegistry = LmosRuntimeProperties.AgentRegistry(baseUrl = "http://localhost"),
                     openAI = LmosRuntimeProperties.OpenAI(url = "http://localhost", key = "openaiKey", "", 1, 0.0, "json_model"),
+                    router = LmosRuntimeProperties.Router(type = LmosRuntimeProperties.RouterType.LLM),
                 )
 
             val registry = LmosOperatorAgentRegistry(properties)
             registry.client = client
 
-            val agents: List<Agent> = registry.getAgents("test-tenant", "test-channel")
+            val routingInformation: RoutingInformation =
+                registry.getRoutingInformation(
+                    "test-tenant",
+                    "test-channel",
+                    "test-subset",
+                )
 
-            assertEquals(1, agents.size)
-            assertEquals("test-agent", agents[0].name)
+            assertEquals(1, routingInformation.agentList.size)
+            assertEquals("test-agent", routingInformation.agentList[0].name)
         }
 
     @Test
@@ -109,13 +114,14 @@ class LmosOperatorAgentRegistryTest {
                 LmosRuntimeProperties(
                     agentRegistry = LmosRuntimeProperties.AgentRegistry(baseUrl = "http://localhost"),
                     openAI = LmosRuntimeProperties.OpenAI("http://localhost", key = "openaiKey", "", 1, 0.0, "json_model"),
+                    router = LmosRuntimeProperties.Router(type = LmosRuntimeProperties.RouterType.LLM),
                 )
 
             val registry = LmosOperatorAgentRegistry(properties)
             registry.client = client
 
             assertThrows(NoRoutingInfoFoundException::class.java) {
-                runBlocking { registry.getAgents("test-tenant", "test-channel") }
+                runBlocking { registry.getRoutingInformation("test-tenant", "test-channel", "test-subset") }
             }
         }
 }
