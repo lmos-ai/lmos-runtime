@@ -1,0 +1,8 @@
+lmos:
+  runtime:
+    agent-registry:
+      base-url: http://localhost:8080/agentRegistry
+    router:
+      type: EXPLICIT
+    cache:
+      ttl: 10000
