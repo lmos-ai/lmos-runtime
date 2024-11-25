@@ -1,0 +1,67 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/agentRegistry/apis/v1/tenants/en/channels/web/routing"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "apiVersion": "v1",
+      "kind": "ChannelRouting",
+      "metadata": {
+        "creationTimestamp": "2024-08-25T12:34:56Z",
+        "generation": 1,
+        "labels": {
+          "channel": "web",
+          "subset": "production",
+          "tenant": "en",
+          "version": "v1.0"
+        },
+        "name": "channel-routing-web",
+        "namespace": "default",
+        "resourceVersion": "123456",
+        "uid": "abcd-efgh-ijkl-mnop"
+      },
+      "spec": {
+        "capabilityGroups": [
+          {
+            "name": "UserManagementAgent",
+            "description": "Handles basic web capabilities",
+            "capabilities": [
+              {
+                "name": "user-auth",
+                "requiredVersion": "1.0",
+                "providedVersion": "1.1",
+                "description": "Provides user authentication",
+                "host": "localhost:8080/user-agent",
+                "subset": "stable"
+              },
+              {
+                "name": "user-profile",
+                "requiredVersion": "1.0",
+                "providedVersion": "1.0",
+                "description": "Manages user profiles",
+                "host": "localhost:8080/user-agent",
+                "subset": "stable"
+              }
+            ]
+          },
+          {
+            "name": "NotificationAgent",
+            "description": "Handles advanced web features",
+            "capabilities": [
+              {
+                "name": "real-time-notification",
+                "requiredVersion": "2.0",
+                "providedVersion": "2.1",
+                "description": "Provides real-time notifications",
+                "host": "localhost:8080/notification-agent",
+                "subset": "stable"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
