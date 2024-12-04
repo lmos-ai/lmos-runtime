@@ -32,6 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 21
@@ -41,8 +42,20 @@ jobs:
           distribution: 'temurin'
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@cc4fc85e6b35bafd578d5ffbc76a5518407e1af0
-      - name: Build with Gradle Wrapper
-        run: ./gradlew build
+      - name: Build and push image to GitHub Packages
+        run: ./gradlew bootBuildImage
+        env:
+          REGISTRY_URL: ghcr.io
+          REGISTRY_USERNAME: ${{ github.actor }}
+          REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          REGISTRY_NAMESPACE: lmos-ai
+      - name: Publish Chart to GitHub Packages
+        run: ./gradlew helmPush
+        env:
+          REGISTRY_URL: ghcr.io
+          REGISTRY_USERNAME: ${{ github.actor }}
+          REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          REGISTRY_NAMESPACE: lmos-ai
 
   dependency-submission:
     runs-on: ubuntu-latest
