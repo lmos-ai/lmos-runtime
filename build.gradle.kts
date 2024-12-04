@@ -187,6 +187,8 @@ dependencies {
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.2")
 
+    implementation("net.logstash.logback:logstash-logback-encoder:7.4")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("io.mockk:mockk:1.13.13")

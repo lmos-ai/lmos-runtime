@@ -1,7 +1,7 @@
 /*
- * // SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
- * //
- * // SPDX-License-Identifier: Apache-2.0
+ * SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+ *
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 package ai.ancf.lmos.runtime.core.properties
@@ -12,7 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 class LmosRuntimeProperties(
     val agentRegistry: AgentRegistry,
     val openAi: OpenAI? = null,
-    val router: Router,
+    val router: Router = Router(RouterType.LLM),
 ) {
     data class Router(
         val type: RouterType,

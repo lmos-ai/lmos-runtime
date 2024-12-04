@@ -58,6 +58,10 @@ autoscaling:
   maxReplicas: 20
   targetCPUUtilizationPercentage: 80
 
+logging:
+  # Set the logging format. Either: `text` or `json`
+  format: text
+
 volumes: []
 
 volumeMounts: []
