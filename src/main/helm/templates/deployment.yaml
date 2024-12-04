@@ -46,7 +46,11 @@ spec:
             - configMapRef:
                 name: {{ include "lmos-runtime.fullname" . }}-config
           env:
-            - name: OPENAI_API_KEY
+          {{- if eq .Values.logging.format "json" }}
+            - name: SPRING_PROFILES_ACTIVE
+              value: "logformat-json"
+          {{- end }}
+            - name: LMOS_RUNTIME_OPENAI_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretName }}

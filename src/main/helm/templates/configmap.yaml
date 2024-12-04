@@ -3,9 +3,9 @@ kind: ConfigMap
 metadata:
   name: {{ include "lmos-runtime.fullname" . }}-config
 data:
-  OPENAI_API_URL: {{ .Values.openaiApiUrl | quote }}
-  OPENAI_API_MODEL: {{ .Values.openaiApiModel | quote }}
-  OPENAI_API_TEMP: {{ .Values.openaiApiTemperature | quote }}
-  OPENAI_API_FORMAT: {{ .Values.openaiApiFormat | quote }}
-  OPENAI_API_MAX_TOKENS: {{ .Values.openaiApiMaxTokens | quote }}
-  AGENT_REGISTRY_URL: {{ .Values.agentRegistryUrl | quote }}
+  LMOS_RUNTIME_OPENAI_URL: {{ .Values.openaiApiUrl | quote }}
+  LMOS_RUNTIME_OPENAI_MODEL: {{ .Values.openaiApiModel | quote }}
+  LMOS_RUNTIME_OPENAI_TEMPERATURE: {{ .Values.openaiApiTemperature | quote }}
+  LMOS_RUNTIME_OPENAI_FORMAT: {{ .Values.openaiApiFormat | quote }}
+  LMOS_RUNTIME_OPENAI_MAX-TOKENS: {{ .Values.openaiApiMaxTokens | quote }}
+  LMOS_RUNTIME_AGENTREGISTRY_BASEURL: {{ .Values.agentRegistryUrl | quote }}

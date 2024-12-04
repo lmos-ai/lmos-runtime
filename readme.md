@@ -67,15 +67,15 @@ To customize the settings, create a ConfigMap or Secret and mount it to the LMOS
 
 You can adjust the following properties:
 
-| Property                             | Kubernetes ConfigMaps/ Secrets | Description                                               | Default                     |
-| ------------------------------------ | ------------------------------ | --------------------------------------------------------- |-----------------------------|
-| `lmos.runtime.agentRegistry.baseUrl` | AGENT_REGISTRY_URL             | URL of the agent registry service                         | `http://lmos-operator:8080` |
-| `lmos.runtime.openAI.url`            | OPENAI_API_URL                 | OpenAI API URL                                            | `https://api.openai.com/v1` |
-| `lmos.runtime.openAI.model`          | OPENAI_API_MODEL               | OpenAI model to use                                       | `GPT35T-1106`               |
-| `lmos.runtime.openAI.maxTokens`      | OPENAI_API_MAX_TOKENS          | Maximum tokens for OpenAI requests                        | `10000`                     |
-| `lmos.runtime.openAI.temperature`    | OPENAI_API_TEMP                | Temperature for OpenAI requests                           | `0.0`                       |
-| `lmos.runtime.openAI.format`         | OPENAI_API_FORMAT              | Output format for OpenAI requests                         | `json_format`               |
-| `lmos.runtime.openAI.key`            | OPENAI_API_KEY                 | OpenAI API key (**should be set as a Kubernetes secret**) | `null`                      |
+| Property                             | Kubernetes ConfigMaps/ Secrets     | Description                                               | Default                     |
+|--------------------------------------|------------------------------------|-----------------------------------------------------------|-----------------------------|
+| `lmos.runtime.agentRegistry.baseUrl` | LMOS_RUNTIME_AGENTREGISTRY_BASEURL | URL of the agent registry service                         | `http://lmos-operator:8080` |
+| `lmos.runtime.openAI.url`            | LMOS_RUNTIME_OPENAI_URL            | OpenAI API URL                                            | `https://api.openai.com/v1` |
+| `lmos.runtime.openAI.model`          | LMOS_RUNTIME_OPENAI_MODEL          | OpenAI model to use                                       | `GPT35T-1106`               |
+| `lmos.runtime.openAI.maxTokens`      | LMOS_RUNTIME_OPENAI_MAX-TOKENS     | Maximum tokens for OpenAI requests                        | `10000`                     |
+| `lmos.runtime.openAI.temperature`    | LMOS_RUNTIME_OPENAI_TEMPERATURE    | Temperature for OpenAI requests                           | `0.0`                       |
+| `lmos.runtime.openAI.format`         | LMOS_RUNTIME_OPENAI_FORMAT         | Output format for OpenAI requests                         | `json_format`               |
+| `lmos.runtime.openAI.key`            | LMOS_RUNTIME_OPENAI_KEY            | OpenAI API key (**should be set as a Kubernetes secret**) | `null`                      |
 
 ## Setup and Installation
 ### How to install on a Kubernetes cluster:

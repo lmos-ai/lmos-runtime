@@ -1,0 +1,17 @@
+#
+# SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+spring:
+  application:
+    name: lmos-runtime
+  main:
+    banner-mode: off
+
+logging:
+  level:
+    root: INFO
+    org:
+      springframework: WARN
