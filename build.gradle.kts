@@ -174,7 +174,7 @@ dependencies {
 
     implementation("ai.ancf.lmos:lmos-router-llm:0.1.0")
 
-    val arcVersion = "0.116.0"
+    val arcVersion = "0.117.0"
     implementation("ai.ancf.lmos:arc-agent-client:$arcVersion")
     implementation("ai.ancf.lmos:arc-api:$arcVersion")
 
