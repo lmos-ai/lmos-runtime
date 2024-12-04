@@ -11,8 +11,10 @@ import ai.ancf.lmos.arc.api.AgentResult
 import ai.ancf.lmos.arc.api.Message
 import ai.ancf.lmos.runtime.core.constants.ApiConstants
 import ai.ancf.lmos.runtime.core.model.*
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.spyk
 import kotlinx.coroutines.flow.flow
@@ -42,6 +44,7 @@ class ArcAgentClientServiceTest {
         val subset = "test-subset"
 
         val graphQlAgentClient = mockk<GraphQlAgentClient>()
+        coEvery { graphQlAgentClient.close() } just Runs
         coEvery {
             graphQlAgentClient.callAgent(
                 agentRequest = any(),
