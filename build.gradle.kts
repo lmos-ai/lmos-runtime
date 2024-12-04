@@ -15,7 +15,7 @@ plugins {
     id("org.jetbrains.kotlinx.kover") version "0.8.3"
     id("org.jetbrains.dokka") version "1.9.20"
 
-    id("org.springframework.boot") version "3.3.4"
+    id("org.springframework.boot") version "3.4.0"
     id("io.spring.dependency-management") version "1.1.6"
     id("org.cadixdev.licenser") version "0.6.1"
 
