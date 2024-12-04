@@ -165,6 +165,7 @@ class TestConversationControllerIntegrationTest {
 
         val mockGraphQlAgentClient = mockk<GraphQlAgentClient>()
         coEvery { arcAgentClientService.createGraphQlAgentClient(any()) } returns mockGraphQlAgentClient
+        coEvery { mockGraphQlAgentClient.close() } just Runs
         coEvery { mockGraphQlAgentClient.callAgent(any()) } returns
             flow {
                 emit(
@@ -192,6 +193,7 @@ class TestConversationControllerIntegrationTest {
 
         coVerify(exactly = 1) { lmosAgentRoutingService.resolveAgent(any(), any(), any()) }
         coVerify(exactly = 1) { mockGraphQlAgentClient.callAgent(any()) }
+        coVerify(exactly = 1) { mockGraphQlAgentClient.close() }
     }
 
     @Test
