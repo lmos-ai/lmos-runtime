@@ -20,6 +20,7 @@ import ai.ancf.lmos.runtime.core.service.outbound.AgentRoutingService
 import ai.ancf.lmos.runtime.outbound.ArcAgentClientService
 import ai.ancf.lmos.runtime.outbound.LmosAgentRoutingService
 import ai.ancf.lmos.runtime.outbound.LmosOperatorAgentRegistry
+import ai.ancf.lmos.runtime.outbound.RoutingInformation
 import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -38,13 +39,13 @@ open class LmosRuntimeAutoConfiguration(
 
     @Bean
     @ConditionalOnMissingBean(AgentRoutingService::class)
-    open fun agentRegistryService(): AgentRegistryService {
-        return LmosOperatorAgentRegistry(lmosRuntimeProperties)
+    open fun agentRegistryService(lmosRuntimeTenantAwareCache: LmosRuntimeTenantAwareCache<RoutingInformation>): AgentRegistryService {
+        return LmosOperatorAgentRegistry(lmosRuntimeProperties, lmosRuntimeTenantAwareCache)
     }
 
     @Bean
     @ConditionalOnMissingBean(LmosRuntimeTenantAwareCache::class)
-    open fun lmosRuntimeTenantAwareCache(): LmosRuntimeTenantAwareCache<String> {
+    open fun <V : Any> lmosRuntimeTenantAwareCache(): LmosRuntimeTenantAwareCache<V> {
         return TenantAwareInMemoryCache()
     }
 
@@ -73,7 +74,8 @@ open class LmosRuntimeAutoConfiguration(
         agentRoutingService: AgentRoutingService,
         agentClientService: AgentClientService,
         lmosRuntimeTenantAwareCache: LmosRuntimeTenantAwareCache<String>,
+        lmosRuntimeProperties: LmosRuntimeProperties,
     ): ConversationService {
-        return DefaultConversationService(agentRegistryService, agentRoutingService, agentClientService, lmosRuntimeTenantAwareCache)
+        return DefaultConversationService(agentRegistryService, agentRoutingService, agentClientService, lmosRuntimeTenantAwareCache, lmosRuntimeProperties)
     }
 }

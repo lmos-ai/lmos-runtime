@@ -9,7 +9,7 @@ package ai.ancf.lmos.runtime.outbound
 import ai.ancf.lmos.arc.agent.client.graphql.GraphQlAgentClient
 import ai.ancf.lmos.arc.api.AgentResult
 import ai.ancf.lmos.arc.api.Message
-import ai.ancf.lmos.runtime.core.constants.ApiConstants
+import ai.ancf.lmos.runtime.core.constants.LmosRuntimeConstants
 import ai.ancf.lmos.runtime.core.model.*
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -48,7 +48,7 @@ class ArcAgentClientServiceTest {
         coEvery {
             graphQlAgentClient.callAgent(
                 agentRequest = any(),
-                requestHeaders = mapOf(ApiConstants.Headers.SUBSET to subset),
+                requestHeaders = mapOf(LmosRuntimeConstants.Headers.SUBSET to subset),
             )
         } returns
             flow {

@@ -12,7 +12,7 @@ import ai.ancf.lmos.arc.api.ConversationContext
 import ai.ancf.lmos.arc.api.ProfileEntry
 import ai.ancf.lmos.arc.api.SystemContextEntry
 import ai.ancf.lmos.arc.api.UserContext
-import ai.ancf.lmos.runtime.core.constants.ApiConstants
+import ai.ancf.lmos.runtime.core.constants.LmosRuntimeConstants
 import ai.ancf.lmos.runtime.core.exception.AgentClientException
 import ai.ancf.lmos.runtime.core.model.Address
 import ai.ancf.lmos.runtime.core.model.AssistantMessage
@@ -34,7 +34,7 @@ class ArcAgentClientService : AgentClientService {
     ): AssistantMessage {
         return createGraphQlAgentClient(agentAddress).use { graphQlAgentClient ->
 
-            val subsetHeader = subset?.let { mapOf(ApiConstants.Headers.SUBSET to subset) } ?: emptyMap()
+            val subsetHeader = subset?.let { mapOf(LmosRuntimeConstants.Headers.SUBSET to subset) } ?: emptyMap()
             val agentResponse =
                 try {
                     graphQlAgentClient.callAgent(

@@ -12,7 +12,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 class LmosRuntimeProperties(
     val agentRegistry: AgentRegistry,
     val openAi: OpenAI? = null,
-    val router: Router = Router(RouterType.LLM),
+    val router: Router,
+    val cache: Cache,
 ) {
     data class Router(
         val type: RouterType,
@@ -34,5 +35,9 @@ class LmosRuntimeProperties(
         val maxTokens: Int,
         val temperature: Double,
         val format: String,
+    )
+
+    data class Cache(
+        val ttl: Long
     )
 }
