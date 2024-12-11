@@ -6,7 +6,7 @@
 
 package ai.ancf.lmos.runtime.core.service.inbound
 
-import ai.ancf.lmos.runtime.core.constants.ApiConstants.Headers.SUBSET
+import ai.ancf.lmos.runtime.core.constants.LmosRuntimeConstants.Headers.SUBSET
 import ai.ancf.lmos.runtime.core.model.Agent
 import ai.ancf.lmos.runtime.core.model.AssistantMessage
 import ai.ancf.lmos.runtime.core.model.Conversation
