@@ -6,9 +6,9 @@
 
 package ai.ancf.lmos.runtime.inbound.controller
 
-import ai.ancf.lmos.runtime.core.constants.ApiConstants.Endpoints.BASE_PATH
-import ai.ancf.lmos.runtime.core.constants.ApiConstants.Endpoints.CHAT_URL
-import ai.ancf.lmos.runtime.core.constants.ApiConstants.Headers.TURN_ID
+import ai.ancf.lmos.runtime.core.constants.LmosRuntimeConstants.Endpoints.BASE_PATH
+import ai.ancf.lmos.runtime.core.constants.LmosRuntimeConstants.Endpoints.CHAT_URL
+import ai.ancf.lmos.runtime.core.constants.LmosRuntimeConstants.Headers.TURN_ID
 import ai.ancf.lmos.runtime.core.model.AssistantMessage
 import ai.ancf.lmos.runtime.core.model.Conversation
 import ai.ancf.lmos.runtime.core.service.inbound.ConversationService

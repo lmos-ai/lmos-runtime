@@ -8,6 +8,7 @@ package ai.ancf.lmos.runtime.outbound
 
 import ai.ancf.lmos.runtime.core.exception.NoRoutingInfoFoundException
 import ai.ancf.lmos.runtime.core.properties.LmosRuntimeProperties
+import ai.ancf.lmos.runtime.core.service.cache.TenantAwareInMemoryCache
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*
 import io.ktor.http.*
@@ -80,7 +81,9 @@ class LmosOperatorAgentRegistryTest {
                     router = LmosRuntimeProperties.Router(type = LmosRuntimeProperties.RouterType.LLM),
                 )
 
-            val registry = LmosOperatorAgentRegistry(properties)
+            val lmosRuntimeTenantAwareCache = TenantAwareInMemoryCache<RoutingInformation>()
+
+            val registry = LmosOperatorAgentRegistry(properties, lmosRuntimeTenantAwareCache)
             registry.client = client
 
             val routingInformation: RoutingInformation =
@@ -117,7 +120,8 @@ class LmosOperatorAgentRegistryTest {
                     router = LmosRuntimeProperties.Router(type = LmosRuntimeProperties.RouterType.LLM),
                 )
 
-            val registry = LmosOperatorAgentRegistry(properties)
+            val lmosRuntimeTenantAwareCache = TenantAwareInMemoryCache<RoutingInformation>()
+            val registry = LmosOperatorAgentRegistry(properties, lmosRuntimeTenantAwareCache)
             registry.client = client
 
             assertThrows(NoRoutingInfoFoundException::class.java) {

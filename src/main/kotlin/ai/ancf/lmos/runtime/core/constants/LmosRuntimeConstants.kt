@@ -6,7 +6,7 @@
 
 package ai.ancf.lmos.runtime.core.constants
 
-object ApiConstants {
+object LmosRuntimeConstants {
     object Endpoints {
         const val BASE_PATH = "/lmos/runtime/apis/v1"
         const val CHAT_URL = "/{tenantId}/chat/{conversationId}/message"
@@ -15,5 +15,10 @@ object ApiConstants {
     object Headers {
         const val TURN_ID = "x-turn-id"
         const val SUBSET = "x-subset"
+    }
+
+    object Cache {
+        const val ROUTES = "routes"
+        const val DEFAULT_ROUTE = "default"
     }
 }
