@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package ai.ancf.lmos.runtime.core.exception
+package org.eclipse.lmos.runtime.core.exception
 
 import java.io.Serializable
 

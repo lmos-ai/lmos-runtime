@@ -6,7 +6,7 @@ LMOS Runtime is a component of the LMOS (Language Model Operating System) ecosys
 
 It is a comprehensive system designed to manage and route conversations to the most suitable agents based on their capabilities. 
 It leverages the LMOS Operator and LMOS Router to dynamically resolve and route user queries to the appropriate agents.
-This project extends the functionalities of the original [lmos-operator](https://github.com/lmos-ai/lmos-operator/)  and [lmos-router](https://github.com/lmos-ai/lmos-router) by integrating them into a cohesive runtime environment.
+This project extends the functionalities of the original [lmos-operator](https://github.com/eclipse-lmos/lmos-operator/)  and [lmos-router](https://github.com/eclipse-lmos/lmos-router) by integrating them into a cohesive runtime environment.
 
 The LMOS Runtime directs user queries to an agent based on its capabilities. 
 It fetches the list of all installed agents applicable to the tenant and channel from lmos-operator, and uses lmos-router to dynamically resolve the most appropriate agent for each query. 
@@ -80,22 +80,22 @@ You can adjust the following properties:
 ## Setup and Installation
 ### How to install on a Kubernetes cluster:
 
-#### Follow steps to [install lmos-operator](https://github.com/lmos-ai/lmos-operator/blob/main/readme.md) on kubernetes cluster
+#### Follow steps to [install lmos-operator](https://github.com/eclipse-lmos/lmos-operator/blob/main/readme.md) on kubernetes cluster
 
 Install lmos-runtime
 
 ```
-helm install lmos-runtime oci://ghcr.io/lmos-ai/lmos-runtime-chart --version <current_version>
+helm install lmos-runtime oci://ghcr.io/eclipse-lmos/lmos-runtime-chart --version <current_version>
 ```
 
 ### How to test locally:
 
-#### Follow steps to [install lmos-operator](https://github.com/lmos-ai/lmos-operator/blob/main/readme.md) on Minikube
+#### Follow steps to [install lmos-operator](https://github.com/eclipse-lmos/lmos-operator/blob/main/readme.md) on Minikube
 
 Clone and start the lmos-runtime:
 
 ```
-git clone https://github.com/lmos-ai/lmos-runtime
+git clone https://github.com/eclipse-lmos/lmos-runtime
 ```
 update the endpoint of lmos-operator, endpoint and key of openai in [application.yml](src/main/resources/application.yaml)
 

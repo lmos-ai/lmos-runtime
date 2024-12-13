@@ -4,18 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package ai.ancf.lmos.runtime.outbound
+package org.eclipse.lmos.runtime.outbound
 
-import ai.ancf.lmos.router.core.*
-import ai.ancf.lmos.router.llm.DefaultModelClient
-import ai.ancf.lmos.router.llm.DefaultModelClientProperties
-import ai.ancf.lmos.router.llm.LLMAgentRoutingSpecsResolver
-import ai.ancf.lmos.runtime.core.model.Agent
-import ai.ancf.lmos.runtime.core.model.AgentBuilder
-import ai.ancf.lmos.runtime.core.model.AgentCapability
-import ai.ancf.lmos.runtime.core.model.Conversation
-import ai.ancf.lmos.runtime.core.properties.LmosRuntimeProperties
-import ai.ancf.lmos.runtime.core.service.outbound.AgentRoutingService
+import org.eclipse.lmos.router.core.*
+import org.eclipse.lmos.router.llm.DefaultModelClient
+import org.eclipse.lmos.router.llm.DefaultModelClientProperties
+import org.eclipse.lmos.router.llm.LLMAgentRoutingSpecsResolver
+import org.eclipse.lmos.runtime.core.model.Agent
+import org.eclipse.lmos.runtime.core.model.AgentBuilder
+import org.eclipse.lmos.runtime.core.model.AgentCapability
+import org.eclipse.lmos.runtime.core.model.Conversation
+import org.eclipse.lmos.runtime.core.properties.LmosRuntimeProperties
+import org.eclipse.lmos.runtime.core.service.outbound.AgentRoutingService
 import org.slf4j.LoggerFactory
 
 class LmosAgentRoutingService(private val lmosRuntimeProperties: LmosRuntimeProperties) : AgentRoutingService {
@@ -118,7 +118,7 @@ fun AgentRoutingSpec.toAgent(): Agent =
         .name(name)
         .description(description)
         .version(version)
-        .addresses(addresses.map { address -> ai.ancf.lmos.runtime.core.model.Address(address.protocol, address.uri) }.toSet())
+        .addresses(addresses.map { address -> org.eclipse.lmos.runtime.core.model.Address(address.protocol, address.uri) }.toSet())
         .apply {
             capabilities(
                 capabilities.map { capability ->

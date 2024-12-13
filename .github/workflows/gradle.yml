@@ -48,14 +48,14 @@ jobs:
           REGISTRY_URL: ghcr.io
           REGISTRY_USERNAME: ${{ github.actor }}
           REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-          REGISTRY_NAMESPACE: lmos-ai
+          REGISTRY_NAMESPACE: eclipse-lmos
       - name: Publish Chart to GitHub Packages
         run: ./gradlew helmPush
         env:
           REGISTRY_URL: ghcr.io
           REGISTRY_USERNAME: ${{ github.actor }}
           REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-          REGISTRY_NAMESPACE: lmos-ai
+          REGISTRY_NAMESPACE: eclipse-lmos
 
   dependency-submission:
     runs-on: ubuntu-latest

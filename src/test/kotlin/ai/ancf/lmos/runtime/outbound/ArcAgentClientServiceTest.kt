@@ -4,13 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package ai.ancf.lmos.runtime.outbound
+package org.eclipse.lmos.runtime.outbound
 
-import ai.ancf.lmos.arc.agent.client.graphql.GraphQlAgentClient
-import ai.ancf.lmos.arc.api.AgentResult
-import ai.ancf.lmos.arc.api.Message
-import ai.ancf.lmos.runtime.core.constants.ApiConstants
-import ai.ancf.lmos.runtime.core.model.*
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
@@ -19,6 +14,11 @@ import io.mockk.mockk
 import io.mockk.spyk
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
+import org.eclipse.lmos.arc.agent.client.graphql.GraphQlAgentClient
+import org.eclipse.lmos.arc.api.AgentResult
+import org.eclipse.lmos.arc.api.Message
+import org.eclipse.lmos.runtime.core.constants.ApiConstants
+import org.eclipse.lmos.runtime.core.model.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test

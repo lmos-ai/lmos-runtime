@@ -4,21 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package ai.ancf.lmos.runtime.outbound
+package org.eclipse.lmos.runtime.outbound
 
-import ai.ancf.lmos.arc.agent.client.graphql.GraphQlAgentClient
-import ai.ancf.lmos.arc.api.AgentRequest
-import ai.ancf.lmos.arc.api.ConversationContext
-import ai.ancf.lmos.arc.api.ProfileEntry
-import ai.ancf.lmos.arc.api.SystemContextEntry
-import ai.ancf.lmos.arc.api.UserContext
-import ai.ancf.lmos.runtime.core.constants.ApiConstants
-import ai.ancf.lmos.runtime.core.exception.AgentClientException
-import ai.ancf.lmos.runtime.core.model.Address
-import ai.ancf.lmos.runtime.core.model.AssistantMessage
-import ai.ancf.lmos.runtime.core.model.Conversation
-import ai.ancf.lmos.runtime.core.service.outbound.AgentClientService
 import kotlinx.coroutines.flow.toCollection
+import org.eclipse.lmos.arc.agent.client.graphql.GraphQlAgentClient
+import org.eclipse.lmos.arc.api.AgentRequest
+import org.eclipse.lmos.arc.api.ConversationContext
+import org.eclipse.lmos.arc.api.ProfileEntry
+import org.eclipse.lmos.arc.api.SystemContextEntry
+import org.eclipse.lmos.arc.api.UserContext
+import org.eclipse.lmos.runtime.core.constants.ApiConstants
+import org.eclipse.lmos.runtime.core.exception.AgentClientException
+import org.eclipse.lmos.runtime.core.model.Address
+import org.eclipse.lmos.runtime.core.model.AssistantMessage
+import org.eclipse.lmos.runtime.core.model.Conversation
+import org.eclipse.lmos.runtime.core.service.outbound.AgentClientService
 import org.slf4j.LoggerFactory
 
 class ArcAgentClientService : AgentClientService {

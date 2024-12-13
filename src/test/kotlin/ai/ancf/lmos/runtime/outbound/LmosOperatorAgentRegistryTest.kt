@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package ai.ancf.lmos.runtime.outbound
+package org.eclipse.lmos.runtime.outbound
 
-import ai.ancf.lmos.runtime.core.exception.NoRoutingInfoFoundException
-import ai.ancf.lmos.runtime.core.properties.LmosRuntimeProperties
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*
 import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
+import org.eclipse.lmos.runtime.core.exception.NoRoutingInfoFoundException
+import org.eclipse.lmos.runtime.core.properties.LmosRuntimeProperties
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test

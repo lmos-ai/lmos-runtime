@@ -4,18 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package ai.ancf.lmos.runtime.outbound
+package org.eclipse.lmos.runtime.outbound
 
-import ai.ancf.lmos.runtime.core.constants.ApiConstants.Headers.SUBSET
-import ai.ancf.lmos.runtime.core.exception.InternalServerErrorException
-import ai.ancf.lmos.runtime.core.exception.NoRoutingInfoFoundException
-import ai.ancf.lmos.runtime.core.exception.UnexpectedResponseException
-import ai.ancf.lmos.runtime.core.model.Address
-import ai.ancf.lmos.runtime.core.model.Agent
-import ai.ancf.lmos.runtime.core.model.AgentBuilder
-import ai.ancf.lmos.runtime.core.model.AgentCapability
-import ai.ancf.lmos.runtime.core.properties.LmosRuntimeProperties
-import ai.ancf.lmos.runtime.core.service.outbound.AgentRegistryService
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -26,6 +16,16 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import org.eclipse.lmos.runtime.core.constants.ApiConstants.Headers.SUBSET
+import org.eclipse.lmos.runtime.core.exception.InternalServerErrorException
+import org.eclipse.lmos.runtime.core.exception.NoRoutingInfoFoundException
+import org.eclipse.lmos.runtime.core.exception.UnexpectedResponseException
+import org.eclipse.lmos.runtime.core.model.Address
+import org.eclipse.lmos.runtime.core.model.Agent
+import org.eclipse.lmos.runtime.core.model.AgentBuilder
+import org.eclipse.lmos.runtime.core.model.AgentCapability
+import org.eclipse.lmos.runtime.core.properties.LmosRuntimeProperties
+import org.eclipse.lmos.runtime.core.service.outbound.AgentRegistryService
 import org.slf4j.LoggerFactory
 
 class LmosOperatorAgentRegistry(private val lmosRuntimeProperties: LmosRuntimeProperties) : AgentRegistryService {

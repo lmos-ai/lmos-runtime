@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package ai.ancf.lmos.runtime.core.constants
+package org.eclipse.lmos.runtime.core.constants
 
 object ApiConstants {
     object Endpoints {

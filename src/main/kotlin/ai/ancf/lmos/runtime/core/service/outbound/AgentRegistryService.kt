@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package ai.ancf.lmos.runtime.core.service.outbound
+package org.eclipse.lmos.runtime.core.service.outbound
 
-import ai.ancf.lmos.runtime.outbound.RoutingInformation
+import org.eclipse.lmos.runtime.outbound.RoutingInformation
 
 interface AgentRegistryService {
     suspend fun getRoutingInformation(

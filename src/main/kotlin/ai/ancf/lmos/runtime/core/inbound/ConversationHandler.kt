@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package ai.ancf.lmos.runtime.core.inbound
+package org.eclipse.lmos.runtime.core.inbound
 
-import ai.ancf.lmos.runtime.core.model.AssistantMessage
-import ai.ancf.lmos.runtime.core.model.Conversation
-import ai.ancf.lmos.runtime.core.service.inbound.ConversationService
+import org.eclipse.lmos.runtime.core.model.AssistantMessage
+import org.eclipse.lmos.runtime.core.model.Conversation
+import org.eclipse.lmos.runtime.core.service.inbound.ConversationService
 
 interface ConversationHandler {
     suspend fun handleConversation(

@@ -4,27 +4,27 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package ai.ancf.lmos.runtime.inbound.controller
+package org.eclipse.lmos.runtime.inbound.controller
 
-import ai.ancf.lmos.arc.agent.client.graphql.GraphQlAgentClient
-import ai.ancf.lmos.arc.api.AgentResult
-import ai.ancf.lmos.arc.api.Message
-import ai.ancf.lmos.router.core.Address
-import ai.ancf.lmos.router.core.AgentRoutingSpecBuilder
-import ai.ancf.lmos.router.core.AgentRoutingSpecResolverException
-import ai.ancf.lmos.runtime.core.constants.ApiConstants.Endpoints.BASE_PATH
-import ai.ancf.lmos.runtime.core.constants.ApiConstants.Endpoints.CHAT_URL
-import ai.ancf.lmos.runtime.core.constants.ApiConstants.Headers.TURN_ID
-import ai.ancf.lmos.runtime.core.model.*
-import ai.ancf.lmos.runtime.core.properties.LmosRuntimeProperties
-import ai.ancf.lmos.runtime.outbound.ArcAgentClientService
-import ai.ancf.lmos.runtime.outbound.LmosAgentRoutingService
-import ai.ancf.lmos.runtime.outbound.LmosOperatorAgentRegistry
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*
 import io.ktor.http.*
 import io.mockk.*
 import kotlinx.coroutines.flow.flow
+import org.eclipse.lmos.arc.agent.client.graphql.GraphQlAgentClient
+import org.eclipse.lmos.arc.api.AgentResult
+import org.eclipse.lmos.arc.api.Message
+import org.eclipse.lmos.router.core.Address
+import org.eclipse.lmos.router.core.AgentRoutingSpecBuilder
+import org.eclipse.lmos.router.core.AgentRoutingSpecResolverException
+import org.eclipse.lmos.runtime.core.constants.ApiConstants.Endpoints.BASE_PATH
+import org.eclipse.lmos.runtime.core.constants.ApiConstants.Endpoints.CHAT_URL
+import org.eclipse.lmos.runtime.core.constants.ApiConstants.Headers.TURN_ID
+import org.eclipse.lmos.runtime.core.model.*
+import org.eclipse.lmos.runtime.core.properties.LmosRuntimeProperties
+import org.eclipse.lmos.runtime.outbound.ArcAgentClientService
+import org.eclipse.lmos.runtime.outbound.LmosAgentRoutingService
+import org.eclipse.lmos.runtime.outbound.LmosOperatorAgentRegistry
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

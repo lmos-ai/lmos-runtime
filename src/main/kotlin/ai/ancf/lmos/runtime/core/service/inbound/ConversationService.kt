@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package ai.ancf.lmos.runtime.core.service.inbound
+package org.eclipse.lmos.runtime.core.service.inbound
 
-import ai.ancf.lmos.runtime.core.constants.ApiConstants.Headers.SUBSET
-import ai.ancf.lmos.runtime.core.model.Agent
-import ai.ancf.lmos.runtime.core.model.AssistantMessage
-import ai.ancf.lmos.runtime.core.model.Conversation
-import ai.ancf.lmos.runtime.core.service.cache.LmosRuntimeTenantAwareCache
-import ai.ancf.lmos.runtime.core.service.outbound.AgentClientService
-import ai.ancf.lmos.runtime.core.service.outbound.AgentRegistryService
-import ai.ancf.lmos.runtime.core.service.outbound.AgentRoutingService
+import org.eclipse.lmos.runtime.core.constants.ApiConstants.Headers.SUBSET
+import org.eclipse.lmos.runtime.core.model.Agent
+import org.eclipse.lmos.runtime.core.model.AssistantMessage
+import org.eclipse.lmos.runtime.core.model.Conversation
+import org.eclipse.lmos.runtime.core.service.cache.LmosRuntimeTenantAwareCache
+import org.eclipse.lmos.runtime.core.service.outbound.AgentClientService
+import org.eclipse.lmos.runtime.core.service.outbound.AgentRegistryService
+import org.eclipse.lmos.runtime.core.service.outbound.AgentRoutingService
 import org.slf4j.LoggerFactory
 
 public interface ConversationService {

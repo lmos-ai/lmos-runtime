@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package ai.ancf.lmos.runtime.core.model
+package org.eclipse.lmos.runtime.core.model
 
 data class Agent(
     val name: String,

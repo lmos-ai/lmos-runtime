@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package ai.ancf.lmos.runtime.core.service.cache
+package org.eclipse.lmos.runtime.core.service.cache
 
 import java.util.concurrent.ConcurrentHashMap
 

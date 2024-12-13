@@ -25,7 +25,7 @@ plugins {
     id("com.vanniktech.maven.publish") version "0.30.0"
 }
 
-group = "ai.ancf.lmos"
+group = "org.eclipse.lmos"
 
 java {
     toolchain {
@@ -117,12 +117,12 @@ mavenPublishing {
             |designed to facilitate dynamic agent routing and conversation handling in a multi-tenant, 
             |multi-channel environment.
             """.trimMargin()
-        url = "https://github.com/lmos-ai/lmos-runtime"
+        url = "https://github.com/eclipse-lmos/lmos-runtime"
         licenses {
             license {
                 name = "Apache-2.0"
                 distribution = "repo"
-                url = "https://github.com/lmos-ai/lmos-runtime/blob/main/LICENSES/Apache-2.0.txt"
+                url = "https://github.com/eclipse-lmos/lmos-runtime/blob/main/LICENSES/Apache-2.0.txt"
             }
         }
         developers {
@@ -133,7 +133,7 @@ mavenPublishing {
             }
         }
         scm {
-            url = "https://github.com/lmos-ai/lmos-runtime.git"
+            url = "https://github.com/eclipse-lmos/lmos-runtime.git"
         }
     }
 
@@ -152,7 +152,7 @@ mavenPublishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = URI("https://maven.pkg.github.com/lmos-ai/lmos-runtime")
+            url = URI("https://maven.pkg.github.com/eclipse-lmos/lmos-runtime")
             credentials {
                 username = findProperty("GITHUB_USER")?.toString() ?: getenv("GITHUB_USER")
                 password = findProperty("GITHUB_TOKEN")?.toString() ?: getenv("GITHUB_TOKEN")
@@ -172,11 +172,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
-    implementation("ai.ancf.lmos:lmos-router-llm:0.1.0")
+    implementation("org.eclipse.lmos:lmos-router-llm:0.1.0-SNAPSHOT")
 
-    val arcVersion = "0.116.0"
-    implementation("ai.ancf.lmos:arc-agent-client:$arcVersion")
-    implementation("ai.ancf.lmos:arc-api:$arcVersion")
+    val arcVersion = "0.1.0-SNAPSHOT"
+    implementation("org.eclipse.lmos:arc-agent-client:$arcVersion")
+    implementation("org.eclipse.lmos:arc-api:$arcVersion")
 
     val ktorVersion = "2.3.12"
     implementation("io.ktor:ktor-client-core:$ktorVersion")

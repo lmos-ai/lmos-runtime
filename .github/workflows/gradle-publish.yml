@@ -95,7 +95,7 @@ jobs:
           REGISTRY_URL: ghcr.io
           REGISTRY_USERNAME: ${{ github.actor }}
           REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-          REGISTRY_NAMESPACE: lmos-ai
+          REGISTRY_NAMESPACE: eclipse-lmos
 
       - name: Publish Chart to GitHub Packages
         run: ./gradlew helmPush
@@ -103,7 +103,7 @@ jobs:
           REGISTRY_URL: ghcr.io
           REGISTRY_USERNAME: ${{ github.actor }}
           REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-          REGISTRY_NAMESPACE: lmos-ai
+          REGISTRY_NAMESPACE: eclipse-lmos
 
       - name: "Create release info"
         uses: "actions/github-script@v7"

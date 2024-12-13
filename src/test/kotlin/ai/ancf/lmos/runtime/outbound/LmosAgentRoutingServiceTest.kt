@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package ai.ancf.lmos.runtime.outbound
+package org.eclipse.lmos.runtime.outbound
 
-import ai.ancf.lmos.arc.api.Message
-import ai.ancf.lmos.router.core.*
-import ai.ancf.lmos.router.core.Capability
-import ai.ancf.lmos.runtime.core.model.*
-import ai.ancf.lmos.runtime.core.model.Address
-import ai.ancf.lmos.runtime.core.properties.LmosRuntimeProperties
 import io.mockk.*
 import kotlinx.coroutines.runBlocking
+import org.eclipse.lmos.arc.api.Message
+import org.eclipse.lmos.router.core.*
+import org.eclipse.lmos.router.core.Capability
+import org.eclipse.lmos.runtime.core.model.*
+import org.eclipse.lmos.runtime.core.model.Address
+import org.eclipse.lmos.runtime.core.properties.LmosRuntimeProperties
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -56,9 +56,9 @@ class LmosAgentRoutingServiceTest {
     @Test
     fun `resolveAgentForConversation should return correct agent with valid input`() =
         runBlocking {
-            val capability1 = ai.ancf.lmos.router.core.Capability("capability1", "desc1", "1.0")
-            val capability2 = ai.ancf.lmos.router.core.Capability("capability2", "desc2", "1.1")
-            val address1 = ai.ancf.lmos.router.core.Address("http", "http://address1")
+            val capability1 = org.eclipse.lmos.router.core.Capability("capability1", "desc1", "1.0")
+            val capability2 = org.eclipse.lmos.router.core.Capability("capability2", "desc2", "1.1")
+            val address1 = org.eclipse.lmos.router.core.Address("http", "http://address1")
 
             val agentSpec =
                 AgentRoutingSpecBuilder()
@@ -149,8 +149,8 @@ class LmosAgentRoutingServiceTest {
             )
         val addresses =
             setOf(
-                ai.ancf.lmos.router.core.Address("http", "example.com"),
-                ai.ancf.lmos.router.core.Address("https", "example.com"),
+                org.eclipse.lmos.router.core.Address("http", "example.com"),
+                org.eclipse.lmos.router.core.Address("https", "example.com"),
             )
         val spec =
             AgentRoutingSpec(

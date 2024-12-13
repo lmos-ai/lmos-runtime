@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package ai.ancf.lmos.runtime.core.exception
+package org.eclipse.lmos.runtime.core.exception
 
-import ai.ancf.lmos.router.core.AgentRoutingSpecResolverException
+import org.eclipse.lmos.router.core.AgentRoutingSpecResolverException
 import org.slf4j.Logger
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

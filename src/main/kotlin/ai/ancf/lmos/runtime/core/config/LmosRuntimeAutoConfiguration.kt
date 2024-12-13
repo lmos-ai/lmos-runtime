@@ -4,22 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package ai.ancf.lmos.runtime.core.config
+package org.eclipse.lmos.runtime.core.config
 
-import ai.ancf.lmos.runtime.core.inbound.ConversationHandler
-import ai.ancf.lmos.runtime.core.inbound.DefaultConversationHandler
-import ai.ancf.lmos.runtime.core.properties.LmosRuntimeProperties
-import ai.ancf.lmos.runtime.core.service.ExplicitAgentRoutingService
-import ai.ancf.lmos.runtime.core.service.cache.LmosRuntimeTenantAwareCache
-import ai.ancf.lmos.runtime.core.service.cache.TenantAwareInMemoryCache
-import ai.ancf.lmos.runtime.core.service.inbound.ConversationService
-import ai.ancf.lmos.runtime.core.service.inbound.DefaultConversationService
-import ai.ancf.lmos.runtime.core.service.outbound.AgentClientService
-import ai.ancf.lmos.runtime.core.service.outbound.AgentRegistryService
-import ai.ancf.lmos.runtime.core.service.outbound.AgentRoutingService
-import ai.ancf.lmos.runtime.outbound.ArcAgentClientService
-import ai.ancf.lmos.runtime.outbound.LmosAgentRoutingService
-import ai.ancf.lmos.runtime.outbound.LmosOperatorAgentRegistry
+import org.eclipse.lmos.runtime.core.inbound.ConversationHandler
+import org.eclipse.lmos.runtime.core.inbound.DefaultConversationHandler
+import org.eclipse.lmos.runtime.core.properties.LmosRuntimeProperties
+import org.eclipse.lmos.runtime.core.service.ExplicitAgentRoutingService
+import org.eclipse.lmos.runtime.core.service.cache.LmosRuntimeTenantAwareCache
+import org.eclipse.lmos.runtime.core.service.cache.TenantAwareInMemoryCache
+import org.eclipse.lmos.runtime.core.service.inbound.ConversationService
+import org.eclipse.lmos.runtime.core.service.inbound.DefaultConversationService
+import org.eclipse.lmos.runtime.core.service.outbound.AgentClientService
+import org.eclipse.lmos.runtime.core.service.outbound.AgentRegistryService
+import org.eclipse.lmos.runtime.core.service.outbound.AgentRoutingService
+import org.eclipse.lmos.runtime.outbound.ArcAgentClientService
+import org.eclipse.lmos.runtime.outbound.LmosAgentRoutingService
+import org.eclipse.lmos.runtime.outbound.LmosOperatorAgentRegistry
 import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties

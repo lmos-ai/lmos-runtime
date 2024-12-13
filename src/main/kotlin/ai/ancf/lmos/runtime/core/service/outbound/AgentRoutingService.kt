@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package ai.ancf.lmos.runtime.core.service.outbound
+package org.eclipse.lmos.runtime.core.service.outbound
 
-import ai.ancf.lmos.runtime.core.model.Agent
-import ai.ancf.lmos.runtime.core.model.Conversation
+import org.eclipse.lmos.runtime.core.model.Agent
+import org.eclipse.lmos.runtime.core.model.Conversation
 
 interface AgentRoutingService {
     suspend fun resolveAgentForConversation(

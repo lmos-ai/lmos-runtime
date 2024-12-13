@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package ai.ancf.lmos.runtime.core.model
+package org.eclipse.lmos.runtime.core.model
 
-import ai.ancf.lmos.arc.api.AnonymizationEntity
-import ai.ancf.lmos.arc.api.Message
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.eclipse.lmos.arc.api.AnonymizationEntity
+import org.eclipse.lmos.arc.api.Message
 
 data class Conversation(
     val inputContext: InputContext,
