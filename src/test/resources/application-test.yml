@@ -17,3 +17,5 @@ lmos:
       base-url: http://localhost:8080/agentRegistry
     router:
       type: explicit
+    cache:
+      ttl: 1000

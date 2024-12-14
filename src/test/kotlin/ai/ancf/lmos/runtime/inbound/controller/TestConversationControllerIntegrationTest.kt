@@ -12,14 +12,16 @@ import ai.ancf.lmos.arc.api.Message
 import ai.ancf.lmos.router.core.Address
 import ai.ancf.lmos.router.core.AgentRoutingSpecBuilder
 import ai.ancf.lmos.router.core.AgentRoutingSpecResolverException
-import ai.ancf.lmos.runtime.core.constants.ApiConstants.Endpoints.BASE_PATH
-import ai.ancf.lmos.runtime.core.constants.ApiConstants.Endpoints.CHAT_URL
-import ai.ancf.lmos.runtime.core.constants.ApiConstants.Headers.TURN_ID
+import ai.ancf.lmos.runtime.core.constants.LmosRuntimeConstants.Endpoints.BASE_PATH
+import ai.ancf.lmos.runtime.core.constants.LmosRuntimeConstants.Endpoints.CHAT_URL
+import ai.ancf.lmos.runtime.core.constants.LmosRuntimeConstants.Headers.TURN_ID
 import ai.ancf.lmos.runtime.core.model.*
 import ai.ancf.lmos.runtime.core.properties.LmosRuntimeProperties
+import ai.ancf.lmos.runtime.core.service.cache.LmosRuntimeTenantAwareCache
 import ai.ancf.lmos.runtime.outbound.ArcAgentClientService
 import ai.ancf.lmos.runtime.outbound.LmosAgentRoutingService
 import ai.ancf.lmos.runtime.outbound.LmosOperatorAgentRegistry
+import ai.ancf.lmos.runtime.outbound.RoutingInformation
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*
 import io.ktor.http.*
@@ -28,6 +30,7 @@ import kotlinx.coroutines.flow.flow
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
@@ -39,6 +42,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @Import(TestConversationControllerIntegrationTest.MockConfig::class)
+@AutoConfigureWebTestClient(timeout = "100000")
 class TestConversationControllerIntegrationTest {
     @Autowired
     private lateinit var webTestClient: WebTestClient
@@ -51,6 +55,9 @@ class TestConversationControllerIntegrationTest {
 
     @Autowired
     private lateinit var arcAgentClientService: ArcAgentClientService
+
+    @Autowired
+    lateinit var lmosRuntimeTenantAwareCache: LmosRuntimeTenantAwareCache<Any>
 
     @BeforeEach
     fun setup() {
@@ -194,6 +201,73 @@ class TestConversationControllerIntegrationTest {
         coVerify(exactly = 1) { lmosAgentRoutingService.resolveAgent(any(), any(), any()) }
         coVerify(exactly = 1) { mockGraphQlAgentClient.callAgent(any()) }
         coVerify(exactly = 1) { mockGraphQlAgentClient.close() }
+    }
+
+    @Test
+    fun `multi-turn chat returns response from agent`() {
+        val conversationId = "conversation-id"
+        val tenantId = "en"
+        val turnId = "200-turn-id"
+        val correlationId = "correlation-id"
+
+        val conversation =
+            Conversation(
+                systemContext = SystemContext(channelId = "web"),
+                userContext = UserContext(userId = "user-id", userToken = "user-token"),
+                inputContext = InputContext(messages = listOf(Message(role = "user", content = "Hello"))),
+            )
+
+        coEvery { lmosAgentRoutingService.resolveAgent(any(), any(), any()) } returns
+            AgentRoutingSpecBuilder()
+                .name("mocked-agent")
+                .description("Mocked Description")
+                .version("1.0")
+                .address(Address(protocol = "ws", uri = "localhost:8080/subscriptions"))
+                .build()
+
+        val mockGraphQlAgentClient = mockk<GraphQlAgentClient>()
+        coEvery { arcAgentClientService.createGraphQlAgentClient(any()) } returns mockGraphQlAgentClient
+        coEvery { mockGraphQlAgentClient.close() } just Runs
+        coEvery { mockGraphQlAgentClient.callAgent(any()) } returns
+            flow {
+                emit(
+                    AgentResult(
+                        messages =
+                            listOf(
+                                Message(role = "assistant", content = "Dummy response from Agent"),
+                            ),
+                    ),
+                )
+            }
+
+        // Execute the request
+        webTestClient.post()
+            .uri("$BASE_PATH$CHAT_URL", tenantId, conversationId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON)
+            .header(TURN_ID, turnId)
+            .header("x-correlation-id", correlationId)
+            .bodyValue(conversation)
+            .exchange()
+            .expectStatus().isOk
+            .expectBody()
+            .jsonPath("$.content").isEqualTo("Dummy response from Agent")
+
+        webTestClient.post()
+            .uri("$BASE_PATH$CHAT_URL", tenantId, conversationId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON)
+            .header(TURN_ID, "$turnId-2")
+            .header("x-correlation-id", correlationId)
+            .bodyValue(conversation)
+            .exchange()
+            .expectStatus().isOk
+            .expectBody()
+            .jsonPath("$.content").isEqualTo("Dummy response from Agent")
+
+        coVerify(exactly = 2) { lmosAgentRoutingService.resolveAgent(any(), any(), any()) }
+        coVerify(exactly = 2) { mockGraphQlAgentClient.callAgent(any()) }
+        coVerify(exactly = 2) { mockGraphQlAgentClient.close() }
     }
 
     @Test
@@ -401,7 +475,9 @@ class TestConversationControllerIntegrationTest {
         open fun arcAgentClientService(): ArcAgentClientService = spyk()
 
         @Bean
-        open fun agentRoutingService(lmosRuntimeProperties: LmosRuntimeProperties): LmosOperatorAgentRegistry =
-            spyk(LmosOperatorAgentRegistry(lmosRuntimeProperties))
+        open fun agentRoutingService(
+            lmosRuntimeProperties: LmosRuntimeProperties,
+            lmosRuntimeTenantAwareCache: LmosRuntimeTenantAwareCache<RoutingInformation>,
+        ): LmosOperatorAgentRegistry = spyk(LmosOperatorAgentRegistry(lmosRuntimeProperties, lmosRuntimeTenantAwareCache))
     }
 }

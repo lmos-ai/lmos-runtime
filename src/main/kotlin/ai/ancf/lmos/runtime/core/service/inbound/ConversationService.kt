@@ -6,10 +6,11 @@
 
 package ai.ancf.lmos.runtime.core.service.inbound
 
-import ai.ancf.lmos.runtime.core.constants.ApiConstants.Headers.SUBSET
+import ai.ancf.lmos.runtime.core.constants.LmosRuntimeConstants.Headers.SUBSET
 import ai.ancf.lmos.runtime.core.model.Agent
 import ai.ancf.lmos.runtime.core.model.AssistantMessage
 import ai.ancf.lmos.runtime.core.model.Conversation
+import ai.ancf.lmos.runtime.core.properties.LmosRuntimeProperties
 import ai.ancf.lmos.runtime.core.service.cache.LmosRuntimeTenantAwareCache
 import ai.ancf.lmos.runtime.core.service.outbound.AgentClientService
 import ai.ancf.lmos.runtime.core.service.outbound.AgentRegistryService
@@ -30,6 +31,7 @@ class DefaultConversationService(
     private val agentRoutingService: AgentRoutingService,
     private val agentClientService: AgentClientService,
     private val lmosRuntimeTenantAwareCache: LmosRuntimeTenantAwareCache<String>,
+    private val lmosRuntimeProperties: LmosRuntimeProperties,
 ) : ConversationService {
     private val log = LoggerFactory.getLogger(DefaultConversationService::class.java)
 
@@ -43,7 +45,7 @@ class DefaultConversationService(
         log.info("Request Received, conversationId: $conversationId, turnId: $turnId, subset: $subset")
         val routingInformation = agentRegistryService.getRoutingInformation(tenantId, conversation.systemContext.channelId, subset)
         if (routingInformation.subset != null) {
-            lmosRuntimeTenantAwareCache.save(tenantId, SUBSET, conversationId, routingInformation.subset)
+            lmosRuntimeTenantAwareCache.save(tenantId, SUBSET, conversationId, routingInformation.subset, lmosRuntimeProperties.cache.ttl)
         }
         log.info("routingInformation: $routingInformation")
         val agent: Agent = agentRoutingService.resolveAgentForConversation(conversation, routingInformation.agentList)

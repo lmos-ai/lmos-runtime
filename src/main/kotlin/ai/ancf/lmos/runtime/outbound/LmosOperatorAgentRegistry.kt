@@ -6,7 +6,9 @@
 
 package ai.ancf.lmos.runtime.outbound
 
-import ai.ancf.lmos.runtime.core.constants.ApiConstants.Headers.SUBSET
+import ai.ancf.lmos.runtime.core.constants.LmosRuntimeConstants.Cache.DEFAULT_ROUTE
+import ai.ancf.lmos.runtime.core.constants.LmosRuntimeConstants.Cache.ROUTES
+import ai.ancf.lmos.runtime.core.constants.LmosRuntimeConstants.Headers.SUBSET
 import ai.ancf.lmos.runtime.core.exception.InternalServerErrorException
 import ai.ancf.lmos.runtime.core.exception.NoRoutingInfoFoundException
 import ai.ancf.lmos.runtime.core.exception.UnexpectedResponseException
@@ -15,6 +17,7 @@ import ai.ancf.lmos.runtime.core.model.Agent
 import ai.ancf.lmos.runtime.core.model.AgentBuilder
 import ai.ancf.lmos.runtime.core.model.AgentCapability
 import ai.ancf.lmos.runtime.core.properties.LmosRuntimeProperties
+import ai.ancf.lmos.runtime.core.service.cache.LmosRuntimeTenantAwareCache
 import ai.ancf.lmos.runtime.core.service.outbound.AgentRegistryService
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -28,7 +31,10 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.slf4j.LoggerFactory
 
-class LmosOperatorAgentRegistry(private val lmosRuntimeProperties: LmosRuntimeProperties) : AgentRegistryService {
+class LmosOperatorAgentRegistry(
+    private val lmosRuntimeProperties: LmosRuntimeProperties,
+    private val lmosRuntimeTenantAwareCache: LmosRuntimeTenantAwareCache<RoutingInformation>,
+) : AgentRegistryService {
     @OptIn(ExperimentalSerializationApi::class)
     private val json =
         Json {
@@ -55,7 +61,22 @@ class LmosOperatorAgentRegistry(private val lmosRuntimeProperties: LmosRuntimePr
         channelId: String,
         subset: String?,
     ): RoutingInformation {
-        val urlString = "${lmosRuntimeProperties.agentRegistry.baseUrl}/apis/v1/tenants/$tenantId/channels/$channelId/routing"
+        val routingInformation =
+            lmosRuntimeTenantAwareCache.get(tenantId, ROUTES, "$channelId-${subset ?: DEFAULT_ROUTE}")
+                ?: queryOperatorForRoutes(tenantId, channelId, subset).also {
+                    lmosRuntimeTenantAwareCache.save(tenantId, ROUTES, "$channelId-${it.subset ?: DEFAULT_ROUTE}", it, lmosRuntimeProperties.cache.ttl)
+                }
+
+        return routingInformation
+    }
+
+    private suspend fun queryOperatorForRoutes(
+        tenantId: String,
+        channelId: String,
+        subset: String?,
+    ): RoutingInformation {
+        val urlString =
+            "${lmosRuntimeProperties.agentRegistry.baseUrl}/apis/v1/tenants/$tenantId/channels/$channelId/routing"
         log.trace("Calling operator: $urlString")
 
         val response =
@@ -78,6 +99,7 @@ class LmosOperatorAgentRegistry(private val lmosRuntimeProperties: LmosRuntimePr
                 log.warn("No routing found for tenant: $tenantId, channel: $channelId (HTTP 404)")
                 throw NoRoutingInfoFoundException(msg = "No routing info found operator for tenant: $tenantId, channel: $channelId")
             }
+
             !response.status.isSuccess() -> {
                 val errorBody = response.bodyAsText()
                 log.error("Unexpected error from operator: ${response.status.value}, Body: $errorBody")
@@ -86,12 +108,11 @@ class LmosOperatorAgentRegistry(private val lmosRuntimeProperties: LmosRuntimePr
         }
 
         return try {
-            val channelRouting =
-                response.bodyAsText().let {
-                    log.debug("Get agents from operator response: $it")
-                    json.decodeFromString<ChannelRouting>(it)
-                }
-            return channelRouting.toRoutingInformation(response.headers[SUBSET])
+            response.bodyAsText().let {
+                log.debug("Get agents from operator response: $it")
+                json.decodeFromString<ChannelRouting>(it)
+            }
+                .toRoutingInformation(response.headers[SUBSET])
         } catch (e: Exception) {
             log.error("Unexpected response body from operator: ${response.bodyAsText()}, exception: ${e.printStackTrace()}")
             throw UnexpectedResponseException("Unexpected response body from operator: ${e.message}")
