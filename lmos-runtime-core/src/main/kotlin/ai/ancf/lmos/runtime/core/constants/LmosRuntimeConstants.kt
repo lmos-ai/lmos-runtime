@@ -7,12 +7,10 @@
 package ai.ancf.lmos.runtime.core.constants
 
 object LmosRuntimeConstants {
-
     object Cache {
         const val ROUTES = "routes"
         const val DEFAULT_ROUTE = "default"
     }
 
     const val SUBSET = "x-subset"
-
 }

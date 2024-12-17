@@ -1,3 +1,8 @@
+/*
+ * // SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+ * //
+ * // SPDX-License-Identifier: Apache-2.0
+ */
 package ai.ancf.lmos.runtime.service.inbound.controller
 
 import ai.ancf.lmos.arc.api.Message
@@ -29,7 +34,6 @@ import org.springframework.web.reactive.function.BodyInserters
 @WebFluxTest(controllers = [ConversationController::class])
 @Import(ConversationControllerTest.CustomBeanConfig::class)
 class ConversationControllerTest {
-
     @Autowired
     private lateinit var webClient: WebTestClient
 
@@ -45,146 +49,152 @@ class ConversationControllerTest {
     @BeforeEach
     fun setup() {
         // Setup test data
-        validConversation = Conversation(
-            inputContext = InputContext(
-                messages = listOf(Message("user", "Hello")),
-                explicitAgent = "agent1"
-            ),
-            systemContext = SystemContext(channelId = "channel1"),
-            userContext = UserContext(userId = "user1", userToken = "token1")
-        )
+        validConversation =
+            Conversation(
+                inputContext =
+                    InputContext(
+                        messages = listOf(Message("user", "Hello")),
+                        explicitAgent = "agent1",
+                    ),
+                systemContext = SystemContext(channelId = "channel1"),
+                userContext = UserContext(userId = "user1", userToken = "token1"),
+            )
 
-        assistantMessage = AssistantMessage(
-            content = "Test assistant response"
-        )
+        assistantMessage =
+            AssistantMessage(
+                content = "Test assistant response",
+            )
     }
 
     @Test
-    fun `chat endpoint returns successful response`(): Unit = runBlocking {
-        val conversationId = "test-conversation-id"
-        val tenantId = "test-tenant-id"
-        val turnId = "test-turn-id"
+    fun `chat endpoint returns successful response`(): Unit =
+        runBlocking {
+            val conversationId = "test-conversation-id"
+            val tenantId = "test-tenant-id"
+            val turnId = "test-turn-id"
 
-        coEvery {
-            conversationHandler.handleConversation(
-                validConversation,
-                conversationId,
-                tenantId,
-                turnId
-            )
-        } returns assistantMessage
+            coEvery {
+                conversationHandler.handleConversation(
+                    validConversation,
+                    conversationId,
+                    tenantId,
+                    turnId,
+                )
+            } returns assistantMessage
 
             webClient.post()
-            .uri("$BASE_PATH$CHAT_URL", tenantId, conversationId)
-            .contentType(MediaType.APPLICATION_JSON)
-            .header(TURN_ID, turnId)
-            .body(BodyInserters.fromValue(validConversation))
-            .exchange()
-            .expectStatus().isOk
-            .expectBody()
-            .json(objectMapper.writeValueAsString(assistantMessage))
-    }
-
-    @Test
-    fun `chat endpoint handles empty conversation`(): Unit = runBlocking {
-        val conversationId = "empty-conversation-id"
-        val tenantId = "empty-tenant-id"
-        val turnId = "empty-turn-id"
-
-        val emptyConversation = Conversation(
-            inputContext = InputContext(
-                messages = listOf(),
-            ),
-            systemContext = SystemContext(channelId = "channel1"),
-            userContext = UserContext(userId = "user1", userToken = "token1")
-        )
-
-        coEvery {
-            conversationHandler.handleConversation(
-                emptyConversation,
-                conversationId,
-                tenantId,
-                turnId
-            )
-        } returns assistantMessage
-
-        webClient.
-            post()
-            .uri("$BASE_PATH$CHAT_URL", tenantId, conversationId)
-            .contentType(MediaType.APPLICATION_JSON)
-            .header(TURN_ID, turnId)
-            .body(BodyInserters.fromValue(emptyConversation))
-            .exchange()
-            .expectStatus().isOk
-            .expectBody()
-            .json(objectMapper.writeValueAsString(assistantMessage))
-    }
-
-    @Test
-    fun `chat endpoint handles missing turn id`(): Unit = runBlocking {
-        val conversationId = "no-turn-id-conversation"
-        val tenantId = "no-turn-id-tenant"
-
-        webClient
-            .post()
-            .uri("$BASE_PATH$CHAT_URL", tenantId, conversationId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromValue(validConversation))
-            .exchange()
-            .expectStatus().isBadRequest
-    }
-
-    @Test
-    fun `chat endpoint handles invalid request body`(): Unit = runBlocking {
-        val conversationId = "invalid-body-conversation"
-        val tenantId = "invalid-body-tenant"
-        val turnId = "invalid-turn-id"
-
-        webClient
-            .post()
-            .uri("$BASE_PATH$CHAT_URL", tenantId, conversationId)
+                .uri("$BASE_PATH$CHAT_URL", tenantId, conversationId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(TURN_ID, turnId)
-            .body(BodyInserters.fromValue("{\"invalid\": \"data\"}"))
-            .exchange()
-            .expectStatus().isBadRequest
-
-    }
+                .body(BodyInserters.fromValue(validConversation))
+                .exchange()
+                .expectStatus().isOk
+                .expectBody()
+                .json(objectMapper.writeValueAsString(assistantMessage))
+        }
 
     @Test
-    fun `chat endpoint handles NoRoutingInfoFoundException`(): Unit = runBlocking {
-        val conversationId = "invalid-body-conversation"
-        val tenantId = "invalid-body-tenant"
-        val turnId = "invalid-turn-id"
+    fun `chat endpoint handles empty conversation`(): Unit =
+        runBlocking {
+            val conversationId = "empty-conversation-id"
+            val tenantId = "empty-tenant-id"
+            val turnId = "empty-turn-id"
 
-        coEvery {
-            conversationHandler.handleConversation(
-                validConversation,
-                conversationId,
-                tenantId,
-                turnId
-            )
-        } throws NoRoutingInfoFoundException("No routing found")
+            val emptyConversation =
+                Conversation(
+                    inputContext =
+                        InputContext(
+                            messages = listOf(),
+                        ),
+                    systemContext = SystemContext(channelId = "channel1"),
+                    userContext = UserContext(userId = "user1", userToken = "token1"),
+                )
 
-        val errorMessage = ErrorMessage("AGENT_NOT_FOUND", "No routing found")
+            coEvery {
+                conversationHandler.handleConversation(
+                    emptyConversation,
+                    conversationId,
+                    tenantId,
+                    turnId,
+                )
+            } returns assistantMessage
 
             webClient
-            .post()
-            .uri("$BASE_PATH$CHAT_URL", tenantId, conversationId)
-            .contentType(MediaType.APPLICATION_JSON)
-            .header(TURN_ID, turnId)
-            .body(BodyInserters.fromValue(validConversation))
-            .exchange()
-            .expectStatus().isNotFound
-            .expectBody().json(objectMapper.writeValueAsString(errorMessage))
+                .post()
+                .uri("$BASE_PATH$CHAT_URL", tenantId, conversationId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(TURN_ID, turnId)
+                .body(BodyInserters.fromValue(emptyConversation))
+                .exchange()
+                .expectStatus().isOk
+                .expectBody()
+                .json(objectMapper.writeValueAsString(assistantMessage))
+        }
 
-    }
+    @Test
+    fun `chat endpoint handles missing turn id`(): Unit =
+        runBlocking {
+            val conversationId = "no-turn-id-conversation"
+            val tenantId = "no-turn-id-tenant"
+
+            webClient
+                .post()
+                .uri("$BASE_PATH$CHAT_URL", tenantId, conversationId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(validConversation))
+                .exchange()
+                .expectStatus().isBadRequest
+        }
+
+    @Test
+    fun `chat endpoint handles invalid request body`(): Unit =
+        runBlocking {
+            val conversationId = "invalid-body-conversation"
+            val tenantId = "invalid-body-tenant"
+            val turnId = "invalid-turn-id"
+
+            webClient
+                .post()
+                .uri("$BASE_PATH$CHAT_URL", tenantId, conversationId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(TURN_ID, turnId)
+                .body(BodyInserters.fromValue("{\"invalid\": \"data\"}"))
+                .exchange()
+                .expectStatus().isBadRequest
+        }
+
+    @Test
+    fun `chat endpoint handles NoRoutingInfoFoundException`(): Unit =
+        runBlocking {
+            val conversationId = "invalid-body-conversation"
+            val tenantId = "invalid-body-tenant"
+            val turnId = "invalid-turn-id"
+
+            coEvery {
+                conversationHandler.handleConversation(
+                    validConversation,
+                    conversationId,
+                    tenantId,
+                    turnId,
+                )
+            } throws NoRoutingInfoFoundException("No routing found")
+
+            val errorMessage = ErrorMessage("AGENT_NOT_FOUND", "No routing found")
+
+            webClient
+                .post()
+                .uri("$BASE_PATH$CHAT_URL", tenantId, conversationId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(TURN_ID, turnId)
+                .body(BodyInserters.fromValue(validConversation))
+                .exchange()
+                .expectStatus().isNotFound
+                .expectBody().json(objectMapper.writeValueAsString(errorMessage))
+        }
 
     @TestConfiguration
     open class CustomBeanConfig {
-
         @Bean
         open fun conversationHandler(): ConversationHandler = mockk<ConversationHandler>()
     }
-
 }

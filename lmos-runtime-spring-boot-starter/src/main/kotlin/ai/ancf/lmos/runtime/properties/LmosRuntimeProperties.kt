@@ -15,7 +15,7 @@ class LmosRuntimeProperties(
     openAi: OpenAI? = null,
     cache: Cache,
     val router: Router,
-): LmosRuntimeConfig(agentRegistry, openAi, cache)
+) : LmosRuntimeConfig(agentRegistry, openAi, cache)
 
 data class Router(
     val type: RouterType,

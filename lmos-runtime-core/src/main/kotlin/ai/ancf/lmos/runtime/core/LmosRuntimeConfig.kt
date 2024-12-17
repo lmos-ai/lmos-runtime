@@ -11,8 +11,6 @@ open class LmosRuntimeConfig(
     val openAi: OpenAI? = null,
     val cache: Cache,
 ) {
-
-
     data class AgentRegistry(
         val baseUrl: String,
     )
@@ -27,7 +25,6 @@ open class LmosRuntimeConfig(
     )
 
     data class Cache(
-        val ttl: Long
+        val ttl: Long,
     )
-
 }

@@ -62,11 +62,18 @@ open class LmosRuntimeAutoConfiguration(
 
     @Bean
     @ConditionalOnMissingBean(ConversationHandler::class)
-    open fun conversationHandler(agentRegistryService: AgentRegistryService,
-                                 agentRoutingService: AgentRoutingService,
-                                 agentClientService: AgentClientService,
-                                 lmosRuntimeTenantAwareCache: LmosRuntimeTenantAwareCache<String>,): ConversationHandler {
-        return DefaultConversationHandler(agentRegistryService, agentRoutingService, agentClientService, lmosRuntimeTenantAwareCache, lmosRuntimeProperties)
+    open fun conversationHandler(
+        agentRegistryService: AgentRegistryService,
+        agentRoutingService: AgentRoutingService,
+        agentClientService: AgentClientService,
+        lmosRuntimeTenantAwareCache: LmosRuntimeTenantAwareCache<String>,
+    ): ConversationHandler {
+        return DefaultConversationHandler(
+            agentRegistryService,
+            agentRoutingService,
+            agentClientService,
+            lmosRuntimeTenantAwareCache,
+            lmosRuntimeProperties,
+        )
     }
-
 }

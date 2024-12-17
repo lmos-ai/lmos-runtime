@@ -1,3 +1,9 @@
+/*
+ * // SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+ * //
+ * // SPDX-License-Identifier: Apache-2.0
+ */
+
 package ai.ancf.lmos.runtime.inbound
 
 import ai.ancf.lmos.runtime.config.LmosRuntimeAutoConfiguration
@@ -19,7 +25,6 @@ import org.springframework.test.context.ActiveProfiles
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = [LmosRuntimeAutoConfiguration::class])
 @ActiveProfiles("test")
 class LmosRuntimeAutoConfigurationTest {
-
     @Autowired
     lateinit var applicationContext: ApplicationContext
 

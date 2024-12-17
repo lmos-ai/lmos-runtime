@@ -1,11 +1,16 @@
+/*
+ * // SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+ * //
+ * // SPDX-License-Identifier: Apache-2.0
+ */
 package ai.ancf.lmos.runtime.test
 
 import com.github.tomakehurst.wiremock.WireMockServer
 
-
 abstract class BaseWireMockTest {
     companion object {
         protected lateinit var wireMockServer: WireMockServer
+
         @JvmStatic
         protected var mockPort: Int = 0
 

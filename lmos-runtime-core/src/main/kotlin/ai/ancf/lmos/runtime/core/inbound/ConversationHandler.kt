@@ -26,13 +26,13 @@ interface ConversationHandler {
     ): AssistantMessage
 }
 
-class DefaultConversationHandler(private val agentRegistryService: AgentRegistryService,
-                                 private val agentRoutingService: AgentRoutingService,
-                                 private val agentClientService: AgentClientService,
-                                 private val lmosRuntimeTenantAwareCache: LmosRuntimeTenantAwareCache<String>,
-                                 private val lmosRuntimeConfig: LmosRuntimeConfig,
-    ) : ConversationHandler {
-
+class DefaultConversationHandler(
+    private val agentRegistryService: AgentRegistryService,
+    private val agentRoutingService: AgentRoutingService,
+    private val agentClientService: AgentClientService,
+    private val lmosRuntimeTenantAwareCache: LmosRuntimeTenantAwareCache<String>,
+    private val lmosRuntimeConfig: LmosRuntimeConfig,
+) : ConversationHandler {
     private val log = LoggerFactory.getLogger(DefaultConversationHandler::class.java)
 
     override suspend fun handleConversation(

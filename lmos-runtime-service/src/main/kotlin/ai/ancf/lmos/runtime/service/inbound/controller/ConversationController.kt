@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping(BASE_PATH)
 class ConversationController(private val conversationHandler: ConversationHandler) {
-
     private val log = LoggerFactory.getLogger(ConversationController::class.java)
-
 
     @PostMapping(CHAT_URL)
     suspend fun chat(

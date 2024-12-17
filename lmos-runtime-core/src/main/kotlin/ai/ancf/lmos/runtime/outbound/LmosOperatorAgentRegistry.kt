@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory
 class LmosOperatorAgentRegistry(
     private val lmosRuntimeConfig: LmosRuntimeConfig,
     private val lmosRuntimeTenantAwareCache: LmosRuntimeTenantAwareCache<RoutingInformation>,
-    ) : AgentRegistryService {
+) : AgentRegistryService {
     @OptIn(ExperimentalSerializationApi::class)
     private val json =
         Json {

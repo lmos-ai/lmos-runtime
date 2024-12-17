@@ -10,11 +10,11 @@ import ai.ancf.lmos.router.core.*
 import ai.ancf.lmos.router.llm.DefaultModelClient
 import ai.ancf.lmos.router.llm.DefaultModelClientProperties
 import ai.ancf.lmos.router.llm.LLMAgentRoutingSpecsResolver
+import ai.ancf.lmos.runtime.core.LmosRuntimeConfig
 import ai.ancf.lmos.runtime.core.model.Agent
 import ai.ancf.lmos.runtime.core.model.AgentBuilder
 import ai.ancf.lmos.runtime.core.model.AgentCapability
 import ai.ancf.lmos.runtime.core.model.Conversation
-import ai.ancf.lmos.runtime.core.LmosRuntimeConfig
 import ai.ancf.lmos.runtime.core.service.outbound.AgentRoutingService
 import org.slf4j.LoggerFactory
 

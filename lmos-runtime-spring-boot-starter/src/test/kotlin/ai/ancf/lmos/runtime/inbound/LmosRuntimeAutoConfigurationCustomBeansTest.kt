@@ -1,3 +1,8 @@
+/*
+ * // SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+ * //
+ * // SPDX-License-Identifier: Apache-2.0
+ */
 package ai.ancf.lmos.runtime.inbound
 
 import ai.ancf.lmos.runtime.config.LmosRuntimeAutoConfiguration
@@ -32,7 +37,6 @@ import org.springframework.test.context.TestPropertySource
 @TestPropertySource(properties = ["lmos.runtime.router.type=LLM", "lmos.runtime.openAi=dummyOpenAiKey"])
 @Import(LmosRuntimeAutoConfigurationCustomBeansTest.CustomBeanConfig::class)
 class LmosRuntimeAutoConfigurationCustomBeansTest {
-
     @Autowired
     lateinit var applicationContext: ApplicationContext
 
@@ -65,72 +69,94 @@ class LmosRuntimeAutoConfigurationCustomBeansTest {
 
     @TestConfiguration
     open class CustomBeanConfig {
+        @Bean
+        open fun agentClientService(): AgentClientService =
+            object : AgentClientService {
+                override suspend fun askAgent(
+                    conversation: Conversation,
+                    conversationId: String,
+                    turnId: String,
+                    agentName: String,
+                    agentAddress: Address,
+                    subset: String?,
+                ): AssistantMessage {
+                    TODO("Not yet implemented")
+                }
+            }
 
         @Bean
-        open fun agentClientService(): AgentClientService = object : AgentClientService {
-            override suspend fun askAgent(
-                conversation: Conversation,
-                conversationId: String,
-                turnId: String,
-                agentName: String,
-                agentAddress: Address,
-                subset: String?
-            ): AssistantMessage {
-                TODO("Not yet implemented")
+        open fun agentRoutingService(): AgentRoutingService =
+            object : AgentRoutingService {
+                override suspend fun resolveAgentForConversation(
+                    conversation: Conversation,
+                    agentList: List<Agent>,
+                ): Agent {
+                    TODO("Not yet implemented")
+                }
             }
-        }
 
         @Bean
-        open fun agentRoutingService(): AgentRoutingService = object : AgentRoutingService {
-            override suspend fun resolveAgentForConversation(
-                conversation: Conversation,
-                agentList: List<Agent>
-            ): Agent {
-                TODO("Not yet implemented")
+        open fun agentRegistryService(): AgentRegistryService =
+            object : AgentRegistryService {
+                override suspend fun getRoutingInformation(
+                    tenantId: String,
+                    channelId: String,
+                    subset: String?,
+                ): RoutingInformation {
+                    TODO("Not yet implemented")
+                }
             }
-        }
 
         @Bean
-        open fun agentRegistryService(): AgentRegistryService = object : AgentRegistryService {
-            override suspend fun getRoutingInformation(
-                tenantId: String,
-                channelId: String,
-                subset: String?
-            ): RoutingInformation {
-                TODO("Not yet implemented")
+        open fun lmosRuntimeTenantAwareCache(): LmosRuntimeTenantAwareCache<String> =
+            object : LmosRuntimeTenantAwareCache<String> {
+                override fun save(
+                    tenantId: String,
+                    prefix: String,
+                    key: String,
+                    value: String,
+                ) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun save(
+                    tenantId: String,
+                    prefix: String,
+                    key: String,
+                    value: String,
+                    timeout: Long,
+                ) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun get(
+                    tenantId: String,
+                    prefix: String,
+                    key: String,
+                ): String? {
+                    TODO("Not yet implemented")
+                }
+
+                override fun delete(
+                    tenantId: String,
+                    prefix: String,
+                    key: String,
+                ) {
+                    TODO("Not yet implemented")
+                }
             }
-        }
 
         @Bean
-        open fun lmosRuntimeTenantAwareCache(): LmosRuntimeTenantAwareCache<String> = object : LmosRuntimeTenantAwareCache<String> {
-            override fun save(tenantId: String, prefix: String, key: String, value: String) {
-                TODO("Not yet implemented")
+        open fun conversationService(): ConversationHandler =
+            object : ConversationHandler {
+                override suspend fun handleConversation(
+                    conversation: Conversation,
+                    conversationId: String,
+                    tenantId: String,
+                    turnId: String,
+                ): AssistantMessage {
+                    TODO("Not yet implemented")
+                }
             }
-
-            override fun save(tenantId: String, prefix: String, key: String, value: String, timeout: Long) {
-                TODO("Not yet implemented")
-            }
-
-            override fun get(tenantId: String, prefix: String, key: String): String? {
-                TODO("Not yet implemented")
-            }
-
-            override fun delete(tenantId: String, prefix: String, key: String) {
-                TODO("Not yet implemented")
-            }
-        }
-
-        @Bean
-        open fun conversationService(): ConversationHandler = object : ConversationHandler {
-            override suspend fun handleConversation(
-                conversation: Conversation,
-                conversationId: String,
-                tenantId: String,
-                turnId: String
-            ): AssistantMessage {
-                TODO("Not yet implemented")
-            }
-        }
-
     }
 }

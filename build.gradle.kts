@@ -3,18 +3,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
 plugins {
     kotlin("jvm") version "2.0.21"
     kotlin("plugin.serialization") version "2.0.21" apply false
-    id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.1" apply false
     id("org.jetbrains.kotlinx.kover") version "0.8.3"
     id("org.jetbrains.dokka") version "1.9.20"
-
     id("org.springframework.boot") version "3.3.4" apply false
     id("io.spring.dependency-management") version "1.1.6" apply false
-    id("org.cadixdev.licenser") version "0.6.1"
-
     id("net.researchgate.release") version "3.0.2" apply false
     id("com.vanniktech.maven.publish") version "0.30.0" apply false
 }
@@ -32,6 +28,7 @@ subprojects {
     apply(plugin = "kotlin")
     apply(plugin = "kotlinx-serialization")
     apply(plugin = "org.jetbrains.kotlinx.kover")
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
     repositories {
         mavenCentral()
@@ -52,13 +49,6 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
-}
-
-license {
-    include("**/*.java")
-    include("**/*.kt")
-    include("**/*.yaml")
-    exclude("**/*.properties")
 }
 
 fun getProperty(propertyName: String) = System.getenv(propertyName) ?: project.findProperty(propertyName) as String

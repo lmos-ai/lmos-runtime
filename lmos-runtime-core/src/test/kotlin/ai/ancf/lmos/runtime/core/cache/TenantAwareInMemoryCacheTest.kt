@@ -1,3 +1,8 @@
+/*
+ * // SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+ * //
+ * // SPDX-License-Identifier: Apache-2.0
+ */
 package ai.ancf.lmos.runtime.core.cache
 
 import org.junit.jupiter.api.BeforeEach
@@ -7,7 +12,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 class TenantAwareInMemoryCacheTest {
-
     private lateinit var cache: TenantAwareInMemoryCache<String>
 
     @BeforeEach
@@ -87,6 +91,6 @@ class TenantAwareInMemoryCacheTest {
         val key = "key1"
 
         // Act
-        assertThrows<IllegalArgumentException> {  cache.delete(tenantId, prefix, key) }
+        assertThrows<IllegalArgumentException> { cache.delete(tenantId, prefix, key) }
     }
 }
