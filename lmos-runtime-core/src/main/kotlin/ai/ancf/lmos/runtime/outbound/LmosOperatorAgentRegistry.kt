@@ -64,7 +64,10 @@ class LmosOperatorAgentRegistry(
         val routingInformation =
             lmosRuntimeTenantAwareCache.get(tenantId, ROUTES, "$channelId-${subset ?: DEFAULT_ROUTE}")
                 ?: queryOperatorForRoutes(tenantId, channelId, subset).also {
-                    lmosRuntimeTenantAwareCache.save(tenantId, ROUTES, "$channelId-${it.subset ?: DEFAULT_ROUTE}", it, lmosRuntimeConfig.cache.ttl)
+                    lmosRuntimeTenantAwareCache.save(
+                        tenantId, ROUTES, "$channelId-${it.subset ?: DEFAULT_ROUTE}",
+                        it, lmosRuntimeConfig.cache.ttl,
+                    )
                 }
 
         return routingInformation
