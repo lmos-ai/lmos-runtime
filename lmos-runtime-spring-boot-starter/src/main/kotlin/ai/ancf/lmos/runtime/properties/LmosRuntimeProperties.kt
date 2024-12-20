@@ -7,6 +7,7 @@
 package ai.ancf.lmos.runtime.properties
 
 import ai.ancf.lmos.runtime.core.LmosRuntimeConfig
+import org.slf4j.LoggerFactory
 import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ConfigurationProperties(prefix = "lmos.runtime")
@@ -15,13 +16,22 @@ class LmosRuntimeProperties(
     openAi: OpenAI? = null,
     cache: Cache,
     val router: Router,
-) : LmosRuntimeConfig(agentRegistry, openAi, cache)
+) : LmosRuntimeConfig(agentRegistry, openAi, cache) {
+    private val log = LoggerFactory.getLogger(LmosRuntimeProperties::class.java)
+
+    init {
+        log.info(
+            "LmosRuntimeProperties initialized with: " +
+                "agentRegistry = $agentRegistry, cache = $cache, router = $router",
+        )
+    }
+}
 
 data class Router(
-    val type: RouterType,
+    val type: Type,
 )
 
-enum class RouterType {
+enum class Type {
     EXPLICIT,
     LLM,
 }

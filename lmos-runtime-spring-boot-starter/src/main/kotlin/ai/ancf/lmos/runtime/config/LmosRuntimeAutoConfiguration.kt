@@ -19,7 +19,7 @@ import ai.ancf.lmos.runtime.outbound.LmosAgentRoutingService
 import ai.ancf.lmos.runtime.outbound.LmosOperatorAgentRegistry
 import ai.ancf.lmos.runtime.outbound.RoutingInformation
 import ai.ancf.lmos.runtime.properties.LmosRuntimeProperties
-import ai.ancf.lmos.runtime.properties.RouterType
+import ai.ancf.lmos.runtime.properties.Type
 import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -52,8 +52,8 @@ open class LmosRuntimeAutoConfiguration(
     @ConditionalOnMissingBean(AgentRoutingService::class)
     open fun agentRoutingService(): AgentRoutingService {
         return when (lmosRuntimeProperties.router.type) {
-            RouterType.EXPLICIT -> ExplicitAgentRoutingService()
-            RouterType.LLM -> {
+            Type.EXPLICIT -> ExplicitAgentRoutingService()
+            Type.LLM -> {
                 lmosRuntimeProperties.openAi ?: throw IllegalArgumentException("openAI configuration key is null")
                 LmosAgentRoutingService(lmosRuntimeProperties)
             }

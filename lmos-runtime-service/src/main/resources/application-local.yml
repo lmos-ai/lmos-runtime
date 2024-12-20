@@ -1,0 +1,14 @@
+#
+# // SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+# //
+# // SPDX-License-Identifier: Apache-2.0
+#
+
+lmos:
+  runtime:
+    agent-registry:
+      base-url: https://localhost:8080/agentRegistry
+    router:
+      type: EXPLICIT
+    cache:
+      ttl: 6000

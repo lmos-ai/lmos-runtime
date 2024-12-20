@@ -9,14 +9,13 @@ plugins {
 
 dependencies {
 
-    val ktorVersion = "2.3.12"
+    val ktorVersion = "3.0.0"
     val arcVersion = "0.116.0"
+    val junitVersion = "5.9.3"
 
-    implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-cio:$ktorVersion")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
     implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-    implementation("io.ktor:ktor-client-cio-jvm:$ktorVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.8.1")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.2")
@@ -26,8 +25,8 @@ dependencies {
     api("ai.ancf.lmos:arc-agent-client:$arcVersion")
     api("ai.ancf.lmos:arc-api:$arcVersion")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
 
     testFixturesImplementation("com.marcinziolo:kotlin-wiremock:2.1.1")
-    testFixturesImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
+    testFixturesImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
 }

@@ -37,7 +37,7 @@ tasks.named<BootBuildImage>("bootBuildImage") {
     val registryPassword = getProperty("REGISTRY_PASSWORD")
     val registryNamespace = getProperty("REGISTRY_NAMESPACE")
 
-    imageName.set("$registryUrl/$registryNamespace/${project.name}:${project.version}")
+    imageName.set("$registryUrl/$registryNamespace/${rootProject.name}:${project.version}")
     publish = true
     docker {
         publishRegistry {
@@ -51,7 +51,7 @@ tasks.named<BootBuildImage>("bootBuildImage") {
 helm {
     charts {
         create("main") {
-            chartName.set("${project.name}-chart")
+            chartName.set("${rootProject.name}-chart")
             chartVersion.set("${project.version}")
             sourceDir.set(file("src/main/helm"))
         }
