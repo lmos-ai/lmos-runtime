@@ -8,7 +8,6 @@ package ai.ancf.lmos.runtime.outbound
 
 import ai.ancf.lmos.runtime.core.LmosRuntimeConfig
 import ai.ancf.lmos.runtime.core.cache.LmosRuntimeTenantAwareCache
-import ai.ancf.lmos.runtime.core.constants.LmosRuntimeConstants.Cache.DEFAULT_ROUTE
 import ai.ancf.lmos.runtime.core.constants.LmosRuntimeConstants.Cache.ROUTES
 import ai.ancf.lmos.runtime.core.constants.LmosRuntimeConstants.SUBSET
 import ai.ancf.lmos.runtime.core.exception.InternalServerErrorException
@@ -61,16 +60,19 @@ class LmosOperatorAgentRegistry(
         channelId: String,
         subset: String?,
     ): RoutingInformation {
-        val routingInformation =
-            lmosRuntimeTenantAwareCache.get(tenantId, ROUTES, "$channelId-${subset ?: DEFAULT_ROUTE}")
-                ?: queryOperatorForRoutes(tenantId, channelId, subset).also {
+        val cachedRoutingInfo =
+            subset.takeIf { !it.isNullOrEmpty() }
+                ?.let { lmosRuntimeTenantAwareCache.get(tenantId, ROUTES, "$channelId-$subset") }
+
+        return cachedRoutingInfo
+            ?: queryOperatorForRoutes(tenantId, channelId, subset).also { result ->
+                result.subset?.takeIf { it.isNotEmpty() }?.let {
                     lmosRuntimeTenantAwareCache.save(
-                        tenantId, ROUTES, "$channelId-${it.subset ?: DEFAULT_ROUTE}",
-                        it, lmosRuntimeConfig.cache.ttl,
+                        tenantId, ROUTES, "$channelId-$it",
+                        result, lmosRuntimeConfig.cache.ttl,
                     )
                 }
-
-        return routingInformation
+            }
     }
 
     private suspend fun queryOperatorForRoutes(
