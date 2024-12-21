@@ -1,0 +1,24 @@
+#
+# // SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+# //
+# // SPDX-License-Identifier: Apache-2.0
+#
+
+lmos:
+  runtime:
+    agent-registry:
+      base-url: ${AGENT_REGISTRY_URL}
+    open-ai:
+      url: ${OPENAI_API_URL}
+      key: ${OPENAI_API_KEY}
+      model: ${OPENAI_API_MODEL}
+      max-tokens: ${OPENAI_API_MAX_TOKENS}
+      temperature: ${OPENAI_API_TEMP}
+      format: ${OPENAI_API_FORMAT}
+    cors-properties:
+      enabled: ${CORS_ENABLED:false}
+      allowed-origins: ${CORS_ALLOWED_ORIGINS:*}
+      allowed-methods: ${CORS_ALLOWED_METHODS:*}
+      allowed-headers: ${CORS_ALLOWED_HEADERS:*}
+      patterns: ${CORS_PATTERNS:/**}
+      max-age: ${CORS_MAX_AGE:8000}

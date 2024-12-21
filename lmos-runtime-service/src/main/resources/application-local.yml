@@ -12,3 +12,14 @@ lmos:
       type: EXPLICIT
     cache:
       ttl: 6000
+    cors:
+      enabled: true
+      allowed-headers:
+        - "*"
+      allowed-methods:
+        - "*"
+      allowed-origins:
+        - "*"
+      patterns:
+        - "/**"
+      max-age: 8000

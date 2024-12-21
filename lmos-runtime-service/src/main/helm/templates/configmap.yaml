@@ -11,3 +11,29 @@ data:
   LMOS_RUNTIME_AGENTREGISTRY_BASEURL: {{ .Values.agentRegistryUrl | quote }}
   LMOS_RUNTIME_CACHE_TTL: {{ .Values.cacheTtl | quote }}
   LMOS_RUNTIME_ROUTER_TYPE: {{ .Values.routerType | quote }}
+
+
+  {{- if .Values.corsEnabled }}
+  CORS_ENABLED: {{ .Values.corsEnabled | quote }}
+  {{- end }}
+
+  {{- if .Values.corsAllowedOrigins }}
+  CORS_ALLOWED_ORIGINS: {{ .Values.corsAllowedOrigins | toYaml | quote }}
+  {{- end }}
+
+  {{- if .Values.corsAllowedMethods }}
+  CORS_ALLOWED_METHODS: {{ .Values.corsAllowedMethods | toYaml | quote }}
+  {{- end }}
+
+  {{- if .Values.corsAllowedHeaders }}
+  CORS_ALLOWED_HEADERS: {{ .Values.corsAllowedHeaders | toYaml | quote }}
+  {{- end }}
+
+  {{- if .Values.corsPatterns }}
+  CORS_PATTERNS: {{ .Values.corsPatterns | toYaml | quote }}
+  {{- end }}
+
+  {{- if .Values.corsMaxAge }}
+  CORS_MAX_AGE: {{ .Values.corsMaxAge | quote }}
+  {{- end }}
+
