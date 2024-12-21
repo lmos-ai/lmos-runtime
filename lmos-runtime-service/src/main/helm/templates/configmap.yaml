@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "lmos-runtime.fullname" . }}-config
+data:
+  {{- if .Values.openaiApiUrl }}
+  LMOS_RUNTIME_OPENAI_URL: {{ .Values.openaiApiUrl | quote }}
+  {{- end }}
+
+  {{- if .Values.openaiApiModel }}
+  LMOS_RUNTIME_OPENAI_MODEL: {{ .Values.openaiApiModel | quote }}
+  {{- end }}
+
+  {{- if .Values.openaiApiTemperature }}
+  LMOS_RUNTIME_OPENAI_TEMPERATURE: {{ .Values.openaiApiTemperature | quote }}
+  {{- end }}
+
+  {{- if .Values.openaiApiFormat }}
+  LMOS_RUNTIME_OPENAI_FORMAT: {{ .Values.openaiApiFormat | quote }}
+  {{- end }}
+
+  {{- if .Values.openaiApiMaxTokens }}
+  LMOS_RUNTIME_OPENAI_MAX-TOKENS: {{ .Values.openaiApiMaxTokens | quote }}
+  {{- end }}
+
+  {{- if .Values.agentRegistryUrl }}
+  LMOS_RUNTIME_AGENTREGISTRY_BASEURL: {{ .Values.agentRegistryUrl | quote }}
+  {{- end }}
+
+  {{- if .Values.cacheTtl }}
+  LMOS_RUNTIME_CACHE_TTL: {{ .Values.cacheTtl | quote }}
+  {{- end }}
+
+  {{- if .Values.routerType }}
+  LMOS_RUNTIME_ROUTER_TYPE: {{ .Values.routerType | quote }}
+  {{- end }}

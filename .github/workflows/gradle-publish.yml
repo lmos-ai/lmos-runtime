@@ -89,8 +89,10 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD }}
 
+      - name: Build project
+        run: ./gradlew build
       - name: Build and push image to GitHub Packages
-        run: ./gradlew bootBuildImage
+        run: ./gradlew :lmos-runtime-service:bootBuildImage
         env:
           REGISTRY_URL: ghcr.io
           REGISTRY_USERNAME: ${{ github.actor }}
@@ -98,7 +100,7 @@ jobs:
           REGISTRY_NAMESPACE: lmos-ai
 
       - name: Publish Chart to GitHub Packages
-        run: ./gradlew helmPush
+        run: ./gradlew :lmos-runtime-service:helmPush
         env:
           REGISTRY_URL: ghcr.io
           REGISTRY_USERNAME: ${{ github.actor }}

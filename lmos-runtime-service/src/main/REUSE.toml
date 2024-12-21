@@ -1,0 +1,7 @@
+version = 1
+
+[[annotations]]
+path = "helm/**"
+precedence = "override"
+SPDX-FileCopyrightText = "2024 Deutsche Telekom AG"
+SPDX-License-Identifier = "Apache-2.0"
