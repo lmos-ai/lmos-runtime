@@ -94,14 +94,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-openaiApiUrl: "https://api.openai.com/v1"
-openaiApiModel: "gpt-3.5-turbo"
-openaiApiMaxTokens: 200
-openaiApiTemperature: 0.0
-openaiApiFormat: json_object
-agentRegistryUrl: "http://lmos-operator:8080"
-secretName: "lmos-runtime"
-secretKey: "OPENAI_API_KEY"
-cacheTtl: 1800
-routerType: "EXPLICIT"

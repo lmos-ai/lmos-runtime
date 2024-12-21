@@ -54,7 +54,9 @@ open class LmosRuntimeAutoConfiguration(
         return when (lmosRuntimeProperties.router.type) {
             Type.EXPLICIT -> ExplicitAgentRoutingService()
             Type.LLM -> {
-                lmosRuntimeProperties.openAi ?: throw IllegalArgumentException("openAI configuration key is null")
+                lmosRuntimeProperties.openAi?.key
+                    ?.takeIf { it.isNotBlank() }
+                    ?: throw IllegalArgumentException("openAI configuration key is null or empty")
                 LmosAgentRoutingService(lmosRuntimeProperties)
             }
         }
