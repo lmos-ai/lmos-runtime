@@ -34,9 +34,8 @@ class ConversationHandlerIntegrationTest : BaseWireMockTest() {
             agentRegistry = LmosRuntimeConfig.AgentRegistry(baseUrl = "http://localhost:$mockPort/agentRegistry"),
             cache = LmosRuntimeConfig.Cache(ttl = 6000),
         )
-    private val lmosRuntimeTenantAwareCache = TenantAwareInMemoryCache<String>()
-    private val routingInformationCache = TenantAwareInMemoryCache<RoutingInformation>()
-    private val agentRegistryService = LmosOperatorAgentRegistry(lmosRuntimeConfig, routingInformationCache)
+    private val lmosRuntimeTenantAwareCache = TenantAwareInMemoryCache<RoutingInformation>()
+    private val agentRegistryService = LmosOperatorAgentRegistry(lmosRuntimeConfig)
     private val agentRoutingService = ExplicitAgentRoutingService()
     private val agentClientService = spyk(ArcAgentClientService())
 
@@ -45,8 +44,8 @@ class ConversationHandlerIntegrationTest : BaseWireMockTest() {
             agentRegistryService,
             agentRoutingService,
             agentClientService,
-            lmosRuntimeTenantAwareCache,
             lmosRuntimeConfig,
+            lmosRuntimeTenantAwareCache,
         )
 
     @Test

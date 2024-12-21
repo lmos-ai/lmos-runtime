@@ -9,7 +9,7 @@ import ai.ancf.lmos.arc.api.Message
 import ai.ancf.lmos.runtime.core.LmosRuntimeConfig
 import ai.ancf.lmos.runtime.core.cache.LmosRuntimeTenantAwareCache
 import ai.ancf.lmos.runtime.core.cache.TenantAwareInMemoryCache
-import ai.ancf.lmos.runtime.core.constants.LmosRuntimeConstants.SUBSET
+import ai.ancf.lmos.runtime.core.constants.LmosRuntimeConstants.Cache.ROUTES
 import ai.ancf.lmos.runtime.core.exception.AgentClientException
 import ai.ancf.lmos.runtime.core.exception.NoRoutingInfoFoundException
 import ai.ancf.lmos.runtime.core.model.*
@@ -29,7 +29,7 @@ class ConversationHandlerTest {
     private lateinit var agentRegistryService: AgentRegistryService
     private lateinit var agentRoutingService: AgentRoutingService
     private lateinit var agentClientService: AgentClientService
-    private lateinit var lmosRuntimeTenantAwareCache: LmosRuntimeTenantAwareCache<String>
+    private lateinit var lmosRuntimeTenantAwareCache: LmosRuntimeTenantAwareCache<RoutingInformation>
     private lateinit var conversationHandler: ConversationHandler
     private lateinit var lmosRuntimeConfig: LmosRuntimeConfig
 
@@ -50,8 +50,8 @@ class ConversationHandlerTest {
                 agentRegistryService,
                 agentRoutingService,
                 agentClientService,
-                lmosRuntimeTenantAwareCache,
                 lmosRuntimeConfig,
+                lmosRuntimeTenantAwareCache,
             )
     }
 
@@ -68,7 +68,7 @@ class ConversationHandlerTest {
             val resolvedAgent = routingInformation.agentList[0]
             val agentResponse = AssistantMessage("response")
 
-            mockAgentRegistry(tenantId, conversation.systemContext.channelId, null, routingInformation)
+            mockAgentRegistry(tenantId, conversation.systemContext.channelId, routingInformation)
             mockAgentClient(
                 conversation,
                 conversationId,
@@ -100,7 +100,7 @@ class ConversationHandlerTest {
             val resolvedAgent = routingInformation.agentList[0]
             val assistantMessage = AssistantMessage("Response from agent", listOf())
 
-            mockAgentRegistry(tenantId, conversation.systemContext.channelId, null, routingInformation)
+            mockAgentRegistry(tenantId, conversation.systemContext.channelId, routingInformation)
             mockAgentClient(
                 conversation,
                 conversationId,
@@ -114,8 +114,6 @@ class ConversationHandlerTest {
             // Execute the method
             conversationHandler.handleConversation(conversation, conversationId, tenantId, turnId)
 
-            // Verify that save is called with non-null subset
-            coVerify { lmosRuntimeTenantAwareCache.save(tenantId, SUBSET, conversationId, subset, 6000) }
             coVerify {
                 agentClientService.askAgent(
                     conversation,
@@ -129,7 +127,7 @@ class ConversationHandlerTest {
         }
 
     @Test
-    fun `handleConversation should use existing subset from cache`() =
+    fun `test routing information is cached`() =
         runBlocking {
             // Arrange
             val conversationId = "conv-124"
@@ -143,10 +141,7 @@ class ConversationHandlerTest {
             val resolvedAgent = routingInformation.agentList[0]
             val expectedAgentResponse = AssistantMessage(content = "Test response")
 
-            lmosRuntimeTenantAwareCache.save(tenantId, SUBSET, conversationId, cachedSubset)
-            clearAllMocks()
-
-            mockAgentRegistry(tenantId, conversation.systemContext.channelId, cachedSubset, routingInformation)
+            mockAgentRegistry(tenantId, conversation.systemContext.channelId, routingInformation)
             mockAgentClient(
                 conversation,
                 conversationId,
@@ -157,7 +152,6 @@ class ConversationHandlerTest {
                 expectedAgentResponse,
             )
 
-            // Act
             val result =
                 conversationHandler.handleConversation(
                     conversation,
@@ -166,16 +160,64 @@ class ConversationHandlerTest {
                     turnId,
                 )
 
-            // Assert
             assertEquals(expectedAgentResponse, result)
 
-            // Verify no additional subset save was called
+            coVerify(exactly = 1) {
+                lmosRuntimeTenantAwareCache.save(
+                    tenantId,
+                    ROUTES,
+                    conversationId,
+                    routingInformation,
+                    any(),
+                )
+            }
+        }
+
+    @Test
+    fun `test cached routing information is used`() =
+        runBlocking {
+            // Arrange
+            val conversationId = "conv-124"
+            val tenantId = "tenant-1"
+            val turnId = "turn-1"
+            val cachedSubset = "cached-subset"
+
+            val conversation = conversation()
+            val routingInformation = routingInformation(cachedSubset)
+
+            val resolvedAgent = routingInformation.agentList[0]
+            val expectedAgentResponse = AssistantMessage(content = "Test response")
+
+            lmosRuntimeTenantAwareCache.save(tenantId, ROUTES, conversationId, routingInformation)
+            clearAllMocks()
+
+            mockAgentRegistry(tenantId, conversation.systemContext.channelId, routingInformation)
+            mockAgentClient(
+                conversation,
+                conversationId,
+                turnId,
+                resolvedAgent.name,
+                resolvedAgent.addresses.first(),
+                cachedSubset,
+                expectedAgentResponse,
+            )
+
+            val result =
+                conversationHandler.handleConversation(
+                    conversation,
+                    conversationId,
+                    tenantId,
+                    turnId,
+                )
+
+            assertEquals(expectedAgentResponse, result)
+
             coVerify(exactly = 0) {
                 lmosRuntimeTenantAwareCache.save(
                     tenantId,
-                    SUBSET,
+                    ROUTES,
                     conversationId,
-                    any(),
+                    routingInformation,
                 )
             }
         }
@@ -189,7 +231,7 @@ class ConversationHandlerTest {
         val turnId = "testTurnId"
 
         coEvery {
-            agentRegistryService.getRoutingInformation(tenantId, conversation.systemContext.channelId, null)
+            agentRegistryService.getRoutingInformation(tenantId, conversation.systemContext.channelId)
         } throws NoRoutingInfoFoundException("Registry Error")
 
         assertThrows<NoRoutingInfoFoundException> {
@@ -209,7 +251,7 @@ class ConversationHandlerTest {
         val conversation = conversation()
         val routingInformation = routingInformation()
 
-        mockAgentRegistry(tenantId, conversation.systemContext.channelId, null, routingInformation)
+        mockAgentRegistry(tenantId, conversation.systemContext.channelId, routingInformation)
         coEvery {
             agentClientService.askAgent(conversation, conversationId, turnId, any(), any(), null)
         } throws AgentClientException("Agent Communication Error")
@@ -236,10 +278,7 @@ class ConversationHandlerTest {
 
             val expectedAgentResponse = AssistantMessage(content = "Test response")
 
-            lmosRuntimeTenantAwareCache.save(tenantId, SUBSET, conversationId, subset)
-            clearAllMocks()
-
-            mockAgentRegistry(tenantId, conversation.systemContext.channelId, subset, routingInformation)
+            mockAgentRegistry(tenantId, conversation.systemContext.channelId, routingInformation)
             mockAgentClient(
                 conversation,
                 conversationId,
@@ -301,9 +340,8 @@ class ConversationHandlerTest {
     private fun mockAgentRegistry(
         tenantId: String,
         channelId: String,
-        subset: String?,
         routingInformation: RoutingInformation,
     ) {
-        coEvery { agentRegistryService.getRoutingInformation(tenantId, channelId, subset) } returns routingInformation
+        coEvery { agentRegistryService.getRoutingInformation(tenantId, channelId) } returns routingInformation
     }
 }

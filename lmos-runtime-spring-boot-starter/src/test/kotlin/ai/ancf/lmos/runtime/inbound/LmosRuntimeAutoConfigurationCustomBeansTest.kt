@@ -101,7 +101,6 @@ class LmosRuntimeAutoConfigurationCustomBeansTest {
                 override suspend fun getRoutingInformation(
                     tenantId: String,
                     channelId: String,
-                    subset: String?,
                 ): RoutingInformation {
                     TODO("Not yet implemented")
                 }

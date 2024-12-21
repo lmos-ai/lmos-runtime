@@ -7,8 +7,6 @@
 package ai.ancf.lmos.runtime.outbound
 
 import ai.ancf.lmos.runtime.core.LmosRuntimeConfig
-import ai.ancf.lmos.runtime.core.cache.LmosRuntimeTenantAwareCache
-import ai.ancf.lmos.runtime.core.constants.LmosRuntimeConstants.Cache.ROUTES
 import ai.ancf.lmos.runtime.core.constants.LmosRuntimeConstants.SUBSET
 import ai.ancf.lmos.runtime.core.exception.InternalServerErrorException
 import ai.ancf.lmos.runtime.core.exception.NoRoutingInfoFoundException
@@ -32,7 +30,6 @@ import org.slf4j.LoggerFactory
 
 class LmosOperatorAgentRegistry(
     private val lmosRuntimeConfig: LmosRuntimeConfig,
-    private val lmosRuntimeTenantAwareCache: LmosRuntimeTenantAwareCache<RoutingInformation>,
 ) : AgentRegistryService {
     @OptIn(ExperimentalSerializationApi::class)
     private val json =
@@ -58,27 +55,6 @@ class LmosOperatorAgentRegistry(
     override suspend fun getRoutingInformation(
         tenantId: String,
         channelId: String,
-        subset: String?,
-    ): RoutingInformation {
-        val cachedRoutingInfo =
-            subset.takeIf { !it.isNullOrEmpty() }
-                ?.let { lmosRuntimeTenantAwareCache.get(tenantId, ROUTES, "$channelId-$subset") }
-
-        return cachedRoutingInfo
-            ?: queryOperatorForRoutes(tenantId, channelId, subset).also { result ->
-                result.subset?.takeIf { it.isNotEmpty() }?.let {
-                    lmosRuntimeTenantAwareCache.save(
-                        tenantId, ROUTES, "$channelId-$it",
-                        result, lmosRuntimeConfig.cache.ttl,
-                    )
-                }
-            }
-    }
-
-    private suspend fun queryOperatorForRoutes(
-        tenantId: String,
-        channelId: String,
-        subset: String?,
     ): RoutingInformation {
         val urlString =
             "${lmosRuntimeConfig.agentRegistry.baseUrl}/apis/v1/tenants/$tenantId/channels/$channelId/routing"
@@ -86,12 +62,7 @@ class LmosOperatorAgentRegistry(
 
         val response =
             try {
-                client.get(urlString) {
-                    headers {
-                        append(HttpHeaders.Accept, ContentType.Application.Json.toString())
-                        subset?.let { append(SUBSET, it) }
-                    }
-                }
+                client.get(urlString)
             } catch (e: Exception) {
                 log.error("Exception from Operator with url $urlString is $e")
                 throw InternalServerErrorException("Operator responded with an error")
