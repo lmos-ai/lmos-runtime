@@ -39,7 +39,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 8080
+  port: 8081
 
 ingress:
   enabled: false
@@ -94,3 +94,6 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+secretName: "lmos-runtime"
+secretKey: "OPENAI_API_KEY"

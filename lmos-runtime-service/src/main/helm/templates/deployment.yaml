@@ -46,11 +46,13 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: "logformat-json"
           {{- end }}
+          {{- if .Values.secretName }}
             - name: LMOS_RUNTIME_OPENAI_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretName }}
                   key: {{ .Values.secretKey }}
+          {{ end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

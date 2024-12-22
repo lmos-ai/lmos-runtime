@@ -42,7 +42,7 @@ class DefaultConversationHandler(
         tenantId: String,
         turnId: String,
     ): AssistantMessage {
-        log.info("Request Received, conversationId: $conversationId, turnId: $turnId")
+        log.debug("Request Received, conversationId: $conversationId, turnId: $turnId")
         val routingInformation =
             lmosRuntimeTenantAwareCache.get(tenantId, ROUTES, conversationId)
                 ?: agentRegistryService.getRoutingInformation(tenantId, conversation.systemContext.channelId)
