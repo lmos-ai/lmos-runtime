@@ -100,7 +100,6 @@ class ConversationHandlerTest {
             val resolvedAgent = routingInformation.agentList[0]
             val assistantMessage = AssistantMessage("Response from agent", listOf())
 
-            mockAgentRegistry(tenantId, conversation.systemContext.channelId, routingInformation)
             mockAgentClient(
                 conversation,
                 conversationId,
