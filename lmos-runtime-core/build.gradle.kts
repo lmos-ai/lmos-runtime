@@ -10,7 +10,7 @@ plugins {
 dependencies {
 
     val ktorVersion = "2.3.12"
-    val arcVersion = "0.116.0"
+    val arcVersion = "0.120.0"
     val junitVersion = "5.9.3"
 
     implementation("io.ktor:ktor-client-cio:$ktorVersion")
