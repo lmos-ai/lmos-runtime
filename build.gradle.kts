@@ -11,7 +11,7 @@ plugins {
     id("org.jetbrains.dokka") version "1.9.20"
     id("org.springframework.boot") version "3.3.5" apply false
     id("io.spring.dependency-management") version "1.1.6" apply false
-    id("net.researchgate.release") version "3.0.2" apply false
+    id("net.researchgate.release") version "3.0.2"
     id("com.vanniktech.maven.publish") version "0.30.0" apply false
     id("com.citi.helm") version "2.2.0" apply false
     id("com.citi.helm-publish") version "2.2.0" apply false
