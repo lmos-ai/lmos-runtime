@@ -19,7 +19,7 @@ lmos:
       format: ${OPENAI_API_FORMAT:json_object}
     cache:
       ttl: ${CACHE_TTL:1800}
-    cors-properties:
+    cors:
       enabled: ${CORS_ENABLED:false}
       allowed-origins: ${CORS_ALLOWED_ORIGINS:*}
       allowed-methods: ${CORS_ALLOWED_METHODS:*}
