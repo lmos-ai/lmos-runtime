@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.7
-      - uses: gradle/actions/wrapper-validation@v4.2.1
+      - uses: gradle/actions/wrapper-validation@v4.2.2
 
   build:
     runs-on: ubuntu-latest
@@ -41,7 +41,7 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@cc4fc85e6b35bafd578d5ffbc76a5518407e1af0
+        uses: gradle/actions/setup-gradle@7ba6b1c82014ba7e124420b8688ca6a4ddb25b7b
       - name: Build and push image to GitHub Packages
         run: ./gradlew bootBuildImage
         env:
@@ -71,4 +71,4 @@ jobs:
       # Generates and submits a dependency graph, enabling Dependabot Alerts for all project dependencies.
       # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
       - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@cc4fc85e6b35bafd578d5ffbc76a5518407e1af0
+        uses: gradle/actions/dependency-submission@7ba6b1c82014ba7e124420b8688ca6a4ddb25b7b
