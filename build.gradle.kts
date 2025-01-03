@@ -20,7 +20,7 @@ plugins {
     kotlin("jvm")
     kotlin("kapt") version "2.0.21"
     kotlin("plugin.serialization") version "2.0.21" apply false
-    id("org.jetbrains.kotlinx.kover") version "0.8.3"
+    id("org.jetbrains.kotlinx.kover") version "0.9.0"
     id("org.jetbrains.dokka") version "1.9.20"
 }
 
