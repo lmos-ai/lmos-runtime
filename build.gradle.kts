@@ -35,6 +35,15 @@ subprojects {
     repositories {
         mavenCentral()
         mavenLocal()
+        maven {
+            url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+        }
+    }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
     }
 
     dependencies {
@@ -44,12 +53,6 @@ subprojects {
 
     tasks.test {
         useJUnitPlatform()
-    }
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
